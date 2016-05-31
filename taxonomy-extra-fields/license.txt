@@ -1,12 +1,3 @@
-## Taxonomy Extra Fields
-
-Taxonomy Extra Fields is a plugin for create and manage your own custom fields for all taxonomies (natives or created) of Wordpress.
-
-## Author
-
-Guilermo García (@Flewps)
-
-## License
 Copyright (C) 2016 Guillermo Garcia (@Flewps) <http://guillermogarcia.info>
 
 This program is free software: you can redistribute it and/or modify

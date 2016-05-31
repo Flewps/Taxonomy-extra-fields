@@ -1,0 +1,38 @@
+=== Plugin Name ===
+Contributors: guillegarcia
+Donate link: http://tfe.guillermogarcia.info
+Tags: taxonomy, extra, fields, custom,
+Requires at least: 4.4.0
+Tested up to: 4.4
+Stable tag: 4.4
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+
+Add your own custom fields to all wordpress taxonomy easily and efficiently directly from admin UI.
+
+== Description ==
+
+Taxonomy Extra Fields is a plugin for create and manage your own custom fields for all taxonomies (natives or created) of Wordpress directly from admin UI.
+
+== Installation ==
+1. Download clicking directly on the Download button.
+2. Extract the zip content into your wordpress plugins directory: /path/to/your/wordpress/wp-content/plugins/
+3. Go to WP Admin plugins: wp-admin/plugins.php 
+4. Activate the plugin **Taxonomy Extra Fields**
+5. Enjoy it
+
+== Frequently Asked Questions ==
+
+= Question =
+Answer
+
+== Screenshots ==
+1. screenshot description
+
+== Changelog ==
+
+= 0.0.01 = 
+* Begins development
+
+== Coming Soon ==
+* Example milestone
