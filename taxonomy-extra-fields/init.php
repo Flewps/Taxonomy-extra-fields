@@ -25,4 +25,27 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-defined( 'ABSPATH' ) or die( __('Don\'t touch the eggs, please!','tef') );
+defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
+
+global $wpdb;
+
+/*
+ * Configuration
+ */
+define('TEF_DIR', plugin_dir_path( __FILE__ ));
+define('TEF_FIELD_TABLE_NAME', $wpdb->prefix."tef_fields");
+
+/*
+ * Load required classes
+ */
+require_once 'library/class-taxonomy-extra-fields.php';
+
+/*
+ * Load required files
+ */
+require_once 'library/functions.php';
+
+/*
+ * Initialize the plugin
+ */
+TaxonomyExtraFields::init();
