@@ -76,6 +76,7 @@ final class TaxonomyExtraFields{
 		// Add your own Field Type on array (key: field identificator, value: class of instance)
 		$types = apply_filters( 'tef_fields_types', $types);
 		
+		
 		// Set the field types;
 		$this->types = (array) $types;
 	}
