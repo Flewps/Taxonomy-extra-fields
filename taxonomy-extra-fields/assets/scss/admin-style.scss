@@ -1,1 +1,9 @@
-// compileCompressed: ../css/style.min.css, compileExpanded: ../css/expanded/style.css, compileNested: ../css/nested/style.css
+// compileCompressed: ../css/admin-style.min.css, compileExpanded: ../css/expanded/admin-style.css, compileNested: ../css/nested/admin-style.css
+
+.tef-water-mark{
+  position: fixed;
+  right: 30px;
+  bottom: 10px;
+  opacity: 0.5;
+  z-index: -1;
+}

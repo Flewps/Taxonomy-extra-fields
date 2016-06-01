@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: guillegarcia
-Donate link: http://tfe.guillermogarcia.info
+Donate link: http://tef.guillermogarcia.info
 Tags: taxonomy, extra, fields, custom,
 Requires at least: 4.4.0
 Tested up to: 4.4

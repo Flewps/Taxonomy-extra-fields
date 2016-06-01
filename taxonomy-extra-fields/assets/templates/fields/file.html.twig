@@ -1,0 +1,11 @@
+<tr class="form-field">  
+	<th scope="row" valign="top">  
+		<label for="{{ name }}">{{ label }}</label>
+	</th>  
+	<td>  
+		<input type="file" name="{{ name }}" class="{{ class }}" />
+		{% if foo not is empty %}
+			<span class="description">{{ description }}</span>
+		{% endif; %}
+	</td>  
+</tr>

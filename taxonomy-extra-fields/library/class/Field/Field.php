@@ -1,6 +1,14 @@
 <?php
+namespace tef\Field;
 
-abstract class TEF_Field{
+defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
+
+/**
+ * Abstract class TEF_Field
+ * @since 0.0.01
+ * @author GuilleGarcia
+ */
+abstract class Field{
 	
 	protected $ID = NULL;
 	
@@ -12,15 +20,27 @@ abstract class TEF_Field{
 	
 	protected $description = '';
 	
-	protected $options = array();
+	protected $options = array(
+		'pattern' => null, // Regular expresion to validate
+		'length' => array(
+			'min' => 0, // 0: none
+			'max' => 0, // 0: none
+		),
+		'multiple' => false, // false: unique value | true: multiple values
+	);
 	
 	protected $required = 0;
 	
-	abstract protected $type;
+	protected $type;
 	
+	/**
+	 * Constructor
+	 * Create a istance
+	 * @param integer $ID
+	 */
 	function __construct($ID=NULL){
 		
-		if(!is_null($ID)){
+		if(!is_null($ID) && is_numeric($ID)){
 			
 			global $wpdb;
 			
@@ -50,9 +70,6 @@ abstract class TEF_Field{
 	 */
 	function save(){
 		global $wpdb;
-		
-		if( !$this->validate() )
-			return false;
 		
 		// Create new
 		if(is_null($this->ID))
@@ -113,12 +130,19 @@ abstract class TEF_Field{
 	 * Delete the field from DB
 	 */
 	function delete(){
+		global $wpdb;
 		
+		return $wpdb->delete(
+			TEF_FIELD_TABLE_NAME,
+			array('ID' => $this->ID),
+			array('%d')
+		);
 	}
+	
 	
 	/**
 	 * Validate de data of Field Object for create/update
 	 */
-	abstract function validate();
+	abstract function validate($value);
 	
 }
