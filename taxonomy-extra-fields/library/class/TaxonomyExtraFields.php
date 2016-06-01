@@ -1,9 +1,21 @@
 <?php
+namespace tef;
 
+defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
+use \tef\UI\UI;
+use \tef\LoadClasses;
+
+/**
+ * Class TaxonomyExtraFields
+ * @since 0.0.01
+ * @author GuilleGarcia
+ */
 final class TaxonomyExtraFields{
 	
-	static public $instance = null;
+	static public $instance = NULL;
+	
+	private $ui;
 	
 	protected $fields_types = array();
 	
@@ -12,13 +24,17 @@ final class TaxonomyExtraFields{
 	 */
 	function __construct(){
 		
-		$this->init();
+		LoadClasses::load_classes();
+		
+		$this->initialize();
+				
+		$this->ui = UI::get_istance();
 	}
 	
 	/**
 	 * Plugin initialization
 	 */
-	function init(){
+	function initialize(){
 		
 		add_action('init', array($this,'register_fields_types'), 10);
 		
@@ -29,7 +45,7 @@ final class TaxonomyExtraFields{
 	 * Register all admin scripts (CSS and JavaScript)
 	 */
 	function register_admin_scripts(){
-		wp_register_style( 'tef_admin_style', TEF_DIR . '/assets/css/admin-style.min.css', false, '1.0.0' );
+		wp_register_style( 'tef_admin_style', TEF_URL.'/assets/css/admin-style.min.css', false, '1.0.0' );
 		wp_enqueue_style( 'tef_admin_style' );
 	}
 	
@@ -67,10 +83,10 @@ final class TaxonomyExtraFields{
 		$types = array(
 			'text' => 'TEF_TextField',
 			'longtext' => 'TEF_LongtextField',
+			'number' => 'TEF_NumberField',
 			'image' => 'TEF_ImageField',
 			'file' => 'TEF_FileField',
 			'select' => 'TEF_SelectField',
-			'number' => 'TEF_NumberField',
 		);
 		
 		// Add your own Field Type on array (key: field identificator, value: class of instance)

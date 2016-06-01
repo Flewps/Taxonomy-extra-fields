@@ -1,0 +1,7 @@
+.tef-water-mark {
+  position: fixed;
+  right: 30px;
+  bottom: 10px;
+  opacity: 0.5;
+  z-index: -1;
+}
