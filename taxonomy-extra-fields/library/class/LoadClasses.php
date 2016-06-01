@@ -1,6 +1,8 @@
 <?php
 namespace tef;
 
+defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
+
 /**
  *
  * @author GuilleGarcia
