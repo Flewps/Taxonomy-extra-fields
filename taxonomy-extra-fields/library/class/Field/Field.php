@@ -12,7 +12,9 @@ abstract class Field{
 	
 	protected $ID = NULL;
 	
-	protected $taxomy = '';
+	protected $position = '';
+	
+	protected $taxonomy = '';
 	
 	protected $name = '';
 
@@ -50,7 +52,7 @@ abstract class Field{
 			
 			if($row){
 				$this->ID = $row->ID;
-				$this->taxomy = $row->taxonomy;
+				$this->taxonomy = $row->taxonomy;
 				$this->label = $row->label;
 				$this->name = $row->name;
 				$this->description = $row->description;
@@ -62,6 +64,42 @@ abstract class Field{
 			
 	}
 	
+	function get_ID(){
+		return $this->ID;
+	}
+	
+	function get_position(){
+		return $this->position;
+	}
+	
+	function get_taxonomy(){
+		return $this->taxonomy;
+	}
+		
+	function get_name(){
+		return $this->name;
+	}
+		
+	function get_label(){
+		return $this->label;
+	}
+		
+	function get_description(){
+		return $this->description;
+	}
+		
+	function get_options(){
+		return $this->options;
+	}
+		
+	function get_required(){
+		return $this->required;
+	}
+		
+	function get_type(){
+		return $this->type;
+	}
+		
 	/**
 	 * Save the current field
 	 * If ID is empty create a new field

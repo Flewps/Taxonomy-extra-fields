@@ -1,6 +1,8 @@
 <?php
 namespace tef;
 
+defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
+
 /**
  *
  * @author GuilleGarcia
@@ -14,8 +16,10 @@ class LoadClasses{
 		require_once 'UI/FieldController.php';
 		require_once 'UI/TaxonomyController.php';
 		require_once 'UI/TaxonomiesListTable.php';
+		require_once 'UI/TaxonomyFieldsTable.php';
 		
 		// Fields
+		require_once 'Field/FieldsList.php';
 		require_once 'Field/Field.php';
 		require_once 'Field/FileField.php';
 		require_once 'Field/ImageField.php';

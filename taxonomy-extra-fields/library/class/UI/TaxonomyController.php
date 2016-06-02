@@ -3,7 +3,7 @@ namespace tef\UI;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
-use \tef\UI\TaxonomyListTable;
+use \tef\UI\TaxonomyFieldsTable;
 
 /**
  *
@@ -33,13 +33,7 @@ class TaxonomyController{
 		$table = new TaxonomiesListTable();
 		
 		$table->prepare_items();
-		
-		/*
-		echo "<pre>";
-		print_r(get_taxonomies(null, 'objects'));
-		echo "</pre>";
-		*/
-		
+
 		$data = array(
 			'title' => 'Taxonomy Extra Fields',
 			'table' => $table,
@@ -60,9 +54,13 @@ class TaxonomyController{
 				'label' => __('All Taxonomies','tef'),
 			);
 			
+		$table = new TaxonomyFieldsTable();
+		$table->prepare_items($taxonomy);
+			
 		$data = array(
 			'title' => sprintf( __('Taxonomy: %s','tef'), $taxonomy->label),
 			'taxonomy' => $taxonomy,
+			'table' => $table,
 		);
 		
 		echo UI::get_istance()->render('admin/manage-taxonomy', $data);

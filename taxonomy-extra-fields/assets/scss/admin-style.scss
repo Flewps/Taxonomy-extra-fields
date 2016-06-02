@@ -7,3 +7,62 @@
   opacity: 0.5;
   z-index: -1;
 }
+
+.sortable-icon{
+  cursor: row-resize;
+}
+
+.admin_page_tef-manage-taxonomy{
+
+  width: 100%;
+  min-width: 100%;
+
+  thead{
+
+    th#position{
+      width: 20px;
+    }
+
+    th#name,
+    th#type{
+      width: 10%;
+    }
+
+    th#label{
+      width: 15%;
+    }
+
+  }
+
+  tbody{
+    position: relative;
+
+    tr{
+      min-width: 100%;
+      max-width: 100%;
+
+      td.position{
+        text-align: center;
+        font-weight: bold;
+      }
+
+      &.no-items{
+        h2{
+          line-height: 2em !important;
+        }
+
+        .button{
+          margin-left: 15px;
+        }
+      }
+
+      &.ui-sortable-helper{
+        background: #e7f1ff;
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+      }
+
+    }
+
+
+  }
+}

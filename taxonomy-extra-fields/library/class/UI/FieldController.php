@@ -4,20 +4,14 @@ namespace tef\UI;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
+use \tef\UI\TaxonomyFieldsTable;
+
 /**
  * 
  * @author GuilleGarcia
  *
  */
 class FieldController{
-	
-	protected $actions = array(
-		'list',
-		'create',
-		'read',
-		'update',
-		'delete',
-	);
 	
 	/**
 	 * 
@@ -42,9 +36,10 @@ class FieldController{
 	
 	/**
 	 * 
-	 * Update a Field
+	 * Edit a Field
 	 */
-	function updateAction(){
+	function editAction(){
+		
 		
 	}
 	

@@ -101,6 +101,20 @@ class UI{
 				'menu_slug' => 'tef-manage-taxonomy',
 				'function' => array(new TaxonomyController, 'controller'),
 			),
+			array(
+				'page_title' => __('Edit Field','tef'),
+				'menu_title' => __('Edit Field','tef'),
+				'capability' => 'manage_options',
+				'menu_slug' => 'tef-edit-field',
+				'function' => array(new FieldController, 'editAction'),
+			),
+			array(
+				'page_title' => __('Delete Field','tef'),
+				'menu_title' => __('Delete Field','tef'),
+				'capability' => 'manage_options',
+				'menu_slug' => 'tef-delete-field',
+				'function' => array(new FieldController, 'deleteAction'),
+			),
 		);
 		
 		if(0 < count($this->hidden_admin_pages)){

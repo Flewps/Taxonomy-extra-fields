@@ -43,7 +43,7 @@ class TaxonomiesListTable extends \WP_List_table{
 		return $this->columns_sortables;
 	}
 	
-	function prepare_items() {
+	function prepare_items($taxonomy) {
 
 		$this->_column_headers = array($this->get_columns(), $this->get_columns_hidden(), $this->get_columns_sortables());
 
