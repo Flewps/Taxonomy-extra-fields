@@ -12,7 +12,7 @@ abstract class Field{
 	
 	protected $ID = NULL;
 	
-	protected $position = '';
+	protected $position = 1;
 	
 	protected $taxonomy = '';
 	
@@ -40,64 +40,164 @@ abstract class Field{
 	 * Create a istance
 	 * @param integer $ID
 	 */
-	function __construct($ID=NULL){
+	function __construct($ID = null){
 		
-		if(!is_null($ID) && is_numeric($ID)){
-			
-			global $wpdb;
-			
-			$ID = intval( $ID );
-			
-			$row = $wpdb->get_row( "SELECT * FROM ".TEF_FIELD_TABLE_NAME." WHERE ID = " . $ID, OBJECT );
-			
-			if($row){
-				$this->ID = $row->ID;
-				$this->taxonomy = $row->taxonomy;
-				$this->label = $row->label;
-				$this->name = $row->name;
-				$this->description = $row->description;
-				$this->required = intval( $row->required );
-				$this->options = json_decode( $row->options );
-			}
-			
-		}
-			
+		if(is_numeric($ID))
+			$this->ID = intval( $ID );	
+		
 	}
 	
+	/**
+	 * 
+	 */
 	function get_ID(){
 		return $this->ID;
 	}
-	
+
+	/**
+	 *
+	 */
 	function get_position(){
 		return $this->position;
 	}
-	
+
+	/**
+	 *
+	 */
+	function set_position($position){
+		if(is_numeric($position))
+			$this->position = intval( $position );
+	}
+
+	/**
+	 *
+	 */
 	function get_taxonomy(){
 		return $this->taxonomy;
 	}
+
+	/**
+	 *
+	 */
+	function set_taxonomy($taxonomy){
 		
+		if(is_string($taxonomy)){
+			$taxonomy = sanitize_title( $taxonomy );
+			
+			if(in_array($taxonomy, get_taxonomies() ))
+				$this->taxonomy = $taxonomy;
+		}
+			
+	}
+
+	/**
+	 *
+	 */
 	function get_name(){
 		return $this->name;
 	}
-		
+
+	/**
+	 *
+	 */
+	function set_name($name){
+		if(is_string($name))
+			$this->name = sanitize_title( $name );
+	}
+
+	/**
+	 *
+	 */
 	function get_label(){
 		return $this->label;
 	}
-		
+
+	/**
+	 *
+	 */
+	function set_label($label){
+		if(is_string($label))
+			$this->label = sanitize_text_field( $label );
+	}
+
+	/**
+	 *
+	 */
 	function get_description(){
 		return $this->description;
 	}
-		
+
+	/**
+	 *
+	 */
+	function set_description( $description ){
+		if(is_string($description))
+			$this->description = sanitize_text_field( $description );
+	}
+
+	/**
+	 *
+	 */
 	function get_options(){
 		return $this->options;
 	}
+
+	/**
+	 *
+	 */
+	function set_options($options){
 		
+		if(is_array($options)){
+			$this->options = wp_parse_args($options, $this->options );
+		}
+		
+	}
+
+	/**
+	 *
+	 */
 	function get_required(){
 		return $this->required;
 	}
+
+	/**
+	 *
+	 */
+	function si_required(){
 		
+		if($this->required)
+			return true;
+		
+		return false;
+		
+	}
+
+	/**
+	 *
+	 */
+	function set_required($boolean){
+		
+		if($boolean)
+			$this->required = 1;
+		
+		else
+			$this->required = 0;
+		
+	}
+	
+	/**
+	 *
+	 */
 	function get_type(){
 		return $this->type;
+	}
+
+	/**
+	 *
+	 */
+	function set_type($type){
+		if(is_string($type) && in_array($type, array_keys( tef_fields_types() )))
+			$this->type = $type;
 	}
 		
 	/**
