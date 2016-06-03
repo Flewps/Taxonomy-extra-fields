@@ -11,6 +11,9 @@ defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 class LoadClasses{
 	
 	static function load_classes(){
+		// General
+		require_once 'DB.php';
+		
 		// User Interface
 		require_once 'UI/UI.php';
 		require_once 'UI/FieldController.php';

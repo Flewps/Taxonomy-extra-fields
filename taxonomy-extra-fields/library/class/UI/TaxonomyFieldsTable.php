@@ -10,12 +10,27 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-class TaxonomyFieldsTable extends \WP_List_table{
+class TaxonomyFieldsTable extends \WP_List_table {
 	
 	protected $columns = array();
 	protected $columns_hidden = array();
 	protected $columns_sortables = array();
 	
+	protected $taxonomy_name = "all";
+	
+	/**
+	 *
+	 */
+	function __construct( $taxonomy = "all" ){
+		if(is_string($taxonomy))
+			$this->taxonomy_name = sanitize_title( $taxonomy );
+		
+		parent::__construct();
+	}
+	
+	/**
+	 *
+	 */
 	function get_columns(){
 		
 		$this->columns = array(
@@ -32,6 +47,9 @@ class TaxonomyFieldsTable extends \WP_List_table{
 		return $this->columns;
 	}
 	
+	/**
+	 *
+	 */
 	function get_columns_hidden(){
 		
 		$this->columns_hidden = array(
@@ -44,6 +62,9 @@ class TaxonomyFieldsTable extends \WP_List_table{
 		
 	}
 	
+	/**
+	 * 
+	 */
 	function get_columns_sortables(){
 		$this->columns_sortables = array(
 			
@@ -52,11 +73,14 @@ class TaxonomyFieldsTable extends \WP_List_table{
 		return $this->columns_sortables;
 	}
 	
+	/**
+	 * 
+	 */
 	function prepare_items() {
 
 		$this->_column_headers = array($this->get_columns(), $this->get_columns_hidden(), $this->get_columns_sortables());
 
-		$fieldList = new FieldList('all');
+		$fieldList = new FieldList( $this->taxonomy_name );
 		$fieldList->set_from_db();
 		
 		if(0 < count($fields = $fieldList->get_fields())):
@@ -73,9 +97,13 @@ class TaxonomyFieldsTable extends \WP_List_table{
 				);
 			endforeach;
 		endif;
-
 	}
 	
+	/**
+	 * 
+	 * @param unknown $item
+	 * @return string
+	 */
 	function column_label($item) {
 		
 		$page = "tef-edit-field";
@@ -83,9 +111,7 @@ class TaxonomyFieldsTable extends \WP_List_table{
 
 		$actions = array(
 			'edit' => '<a href="'.$link.'">'.__('Edit','tef').'</a>',
-			//'add-new' => sprintf('<a href="?page=%1$s&taxonomy=%2$s&taxonomy=%3$s">%4$s</a>', 'tef-add-field', $item['taxonomy'], __('Add New','tef')),
 			'delete' => sprintf('<a href="?page=%1$s&ID=%2$s">Delete</a>', 'tef-delete-field', $item['ID']),
-			
 		);
 	
 		if($item['required'])
@@ -93,35 +119,40 @@ class TaxonomyFieldsTable extends \WP_List_table{
 		else 
 			$required = '';
 		
-		return sprintf('<strong><a class="row-title" href="'.$link.'">%1$s %3$s</a></strong> %2$s', $item['label'], $this->row_actions($actions), $required );
+		return sprintf('<strong><a class="row-title" href="%4$s">%1$s %3$s</a></strong> %2$s', $item['label'], $this->row_actions($actions), $required, $link );
 	}
 	
-	
+	/**
+	 * 
+	 * @param unknown $item
+	 * @param unknown $column_name
+	 * @return string|unknown
+	 */
 	function column_default( $item, $column_name ) {
 		switch( $column_name ) {
 			case 'position':
 				return '<span class="sortable-icon dashicons dashicons-menu"></span><input type="hidden" name="field['.$item['ID'].']" value="'.$item[ $column_name ].'" />';
-				break;
 			case 'type':
-				$types = tef_getInstance()->get_fields_types();
-				if( in_array($item['type'], array_keys($types) ))
-					return $types[$item['type']]['name'];
+				$types = tef_fields_types();
+				if( in_array($item['type'], array_keys( $types ) ))
+					return $types[ $item['type'] ]['name'];
 				else
 					return __('Unknow','tef');
-				break;
 			case 'taxonomy':
 			case 'name':
 			case 'description':
 			case 'required':
 				return $item[ $column_name ];
-				break;
 			default:
-				return $item; //Show the whole array for troubleshooting purposes
+				return $item;
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	function no_items() {
-		echo '<h2>'.__( 'No fields found.', 'tef' ).' <a class="button button-primary button-large" href="#">'.__('Add new','tef').'</a></h2>';
+		echo '<h2>'.__( 'No custom fields found.', 'tef' ).' <a class="button button-primary button-large" href="#">'.__('Add new','tef').'</a></h2>';
 	}
 	
 	

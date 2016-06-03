@@ -11,8 +11,6 @@ use \tef\UI\FieldController;
  */
 class UI{
 	
-	public static $istance;
-	
 	protected $twig_loader;
 	protected $twig;
 	
@@ -20,13 +18,30 @@ class UI{
 	protected $hidden_admin_pages = array();
 	
 	function __construct(){
-		$this->init();
+		$this->register_actions();
 	}
 	
-	function init(){
-		
+	/**
+	 * Plugin initialization
+	 */
+	function register_actions(){
 		// Register menus
 		add_action('admin_menu', array($this, 'register_menus'), 10);
+	
+		// Register scripts (CSS and JS)
+		add_action('admin_enqueue_scripts', array($this, 'register_admin_scripts'));
+	}
+	
+	/**
+	 * Register all admin scripts (CSS and JavaScript)
+	 */
+	function register_admin_scripts(){
+	
+		wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable'), '1.0.0', true );
+		wp_enqueue_script( 'tef_admin_functions' );
+	
+		wp_register_style( 'tef_admin_style', TEF_URL.'/assets/css/admin-style.min.css', false, '1.0.0' );
+		wp_enqueue_style( 'tef_admin_style' );
 	}
 	
 	function register_menus(){
@@ -76,22 +91,6 @@ class UI{
 			*/
 		);
 		
-		// Create pages
-		if(0 < count( $this->admin_pages )){
-			foreach($this->admin_pages as $page){
-					
-				add_menu_page($page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['function'], $page['icon_url'], $page['position']);
-		
-				if(isset($page['subpages']) && 0 < count($page['subpages'])){
-					foreach($page['subpages'] as $subpage){
-						add_submenu_page($page['menu_slug'],$subpage['page_title'],$subpage['menu_title'],$subpage['capability'],$subpage['menu_slug'],$subpage['function']);
-					}
-				}
-		
-			}
-		}
-		
-		
 		// HIDDEN PAGES
 		$this->hidden_admin_pages = array(
 			array(
@@ -99,7 +98,7 @@ class UI{
 				'menu_title' => __('Manage Taxonomies','tef'),
 				'capability' => 'manage_options',
 				'menu_slug' => 'tef-manage-taxonomy',
-				'function' => array(new TaxonomyController, 'controller'),
+				'function' => array(new TaxonomyController, 'manageAction'),
 			),
 			array(
 				'page_title' => __('Edit Field','tef'),
@@ -117,9 +116,25 @@ class UI{
 			),
 		);
 		
+		// Create pages in menu
+		if(0 < count( $this->admin_pages )){
+			foreach($this->admin_pages as $page){
+					
+				add_menu_page($page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['function'], $page['icon_url'], $page['position']);
+		
+				if(isset($page['subpages']) && 0 < count($page['subpages'])){
+					foreach($page['subpages'] as $subpage){
+						add_submenu_page($page['menu_slug'],$subpage['page_title'],$subpage['menu_title'],$subpage['capability'],$subpage['menu_slug'],$subpage['function']);
+					}
+				}
+		
+			}
+		}
+		
+		// Create hidden pages
 		if(0 < count($this->hidden_admin_pages)){
 			foreach($this->hidden_admin_pages as $page){
-				add_submenu_page('options-writing.php',$page['page_title'],$page['menu_title'],$page['capability'],$page['menu_slug'],$page['function']);
+				add_submenu_page('admin.php',$page['page_title'],$page['menu_title'],$page['capability'],$page['menu_slug'],$page['function']);
 			}
 		}
 		
@@ -163,13 +178,6 @@ class UI{
 		
 		
 		
-	}
-	
-	public static function get_istance(){
-		if(is_null( self::$istance ))
-			self::$istance = new self();
-		
-		return self::$istance;
 	}
 	
 }

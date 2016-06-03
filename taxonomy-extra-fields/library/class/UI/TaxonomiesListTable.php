@@ -14,6 +14,9 @@ class TaxonomiesListTable extends \WP_List_table{
 	protected $columns_hidden = array();
 	protected $columns_sortables = array();
 	
+	/**
+	 * 
+	 */
 	function get_columns(){
 		
 		$this->columns = array(
@@ -25,6 +28,9 @@ class TaxonomiesListTable extends \WP_List_table{
 		return $this->columns;
 	}
 	
+	/**
+	 *
+	 */
 	function get_columns_hidden(){
 		
 		$this->columns_hidden = array(
@@ -35,15 +41,21 @@ class TaxonomiesListTable extends \WP_List_table{
 		
 	}
 	
+	/**
+	 *
+	 */	
 	function get_columns_sortables(){
 		$this->columns_sortables = array(
-			'ID',
+			
 		);
 		
 		return $this->columns_sortables;
 	}
-	
-	function prepare_items($taxonomy) {
+
+	/**
+	 *
+	 */
+	function prepare_items() {
 
 		$this->_column_headers = array($this->get_columns(), $this->get_columns_hidden(), $this->get_columns_sortables());
 
@@ -64,11 +76,14 @@ class TaxonomiesListTable extends \WP_List_table{
 		}
 
 	}
-	
+
+	/**
+	 * It's determine the appareance of the taxonomy name column
+	 */
 	function column_taxonomy($item) {
 		
 		$page = "tef-manage-taxonomy";
-		$manage_link = '?page='.$page.'&taxonomy='.$item['slug'].'&action=manage';
+		$manage_link = '?page='.$page.'&taxonomy='.$item['slug'];
 
 		$actions = array(
 			'manage' => '<a href="'.$manage_link.'">'.__('Manage','tef').'</a>',
@@ -77,8 +92,10 @@ class TaxonomiesListTable extends \WP_List_table{
 	
 		return sprintf('<strong><a class="row-title" href="'.$manage_link.'">%1$s</a></strong> %2$s', $item['taxonomy'], $this->row_actions($actions) );
 	}
-	
-	
+
+	/**
+	 *
+	 */
 	function column_default( $item, $column_name ) {
 		switch( $column_name ) {
 			case 'taxonomy':
