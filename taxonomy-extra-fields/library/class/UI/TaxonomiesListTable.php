@@ -87,7 +87,7 @@ class TaxonomiesListTable extends \WP_List_table{
 
 		$actions = array(
 			'manage' => '<a href="'.$manage_link.'">'.__('Manage','tef').'</a>',
-			'add-new' => sprintf('<a href="?page=%1$s&taxonomy=%2$s&action=%3$s">%4$s</a>',$page,$item['ID'],'add-new', __('Add New','tef')),
+			'add-new' => sprintf('<a href="?page=%1$s&taxonomy=%2$s&action=%3$s">%4$s</a>',$page,$item['slug'],'add-new', __('Add New','tef')),
 		);
 	
 		return sprintf('<strong><a class="row-title" href="'.$manage_link.'">%1$s</a></strong> %2$s', $item['taxonomy'], $this->row_actions($actions) );

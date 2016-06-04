@@ -1,4 +1,7 @@
 // compileCompressed: ../css/admin-style.min.css, compileExpanded: ../css/expanded/admin-style.css, compileNested: ../css/nested/admin-style.css
+table, tr, td, th, tbody, thead{
+  box-sizing:content-box;
+}
 
 .tef-water-mark{
   position: fixed;
@@ -64,5 +67,12 @@
     }
 
 
+  }
+}
+
+.tef-form{
+
+  &:not(.visible){
+    display: none;
   }
 }

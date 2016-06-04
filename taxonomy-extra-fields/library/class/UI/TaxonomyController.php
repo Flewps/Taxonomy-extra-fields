@@ -69,7 +69,7 @@ class TaxonomyController{
 		);
 		
 		echo get_TEFUI()->render('admin/manage-taxonomy', $data);
-		
+
 	}
 	
 

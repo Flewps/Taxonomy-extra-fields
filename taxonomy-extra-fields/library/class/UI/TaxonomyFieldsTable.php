@@ -110,7 +110,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 		$link = '?page='.$page.'&ID='.$item['ID'];
 
 		$actions = array(
-			'edit' => '<a href="'.$link.'">'.__('Edit','tef').'</a>',
+			'edit' => '<a href="'.$link.'" data-open="form-field">'.__('Edit','tef').'</a>',
 			'delete' => sprintf('<a href="?page=%1$s&ID=%2$s">Delete</a>', 'tef-delete-field', $item['ID']),
 		);
 	
@@ -119,7 +119,14 @@ class TaxonomyFieldsTable extends \WP_List_table {
 		else 
 			$required = '';
 		
-		return sprintf('<strong><a class="row-title" href="%4$s">%1$s %3$s</a></strong> %2$s', $item['label'], $this->row_actions($actions), $required, $link );
+		return sprintf(
+			'<strong><a class="row-title" href="%4$s">%1$s %3$s</a></strong> %2$s %5$s', 
+			$item['label'], 
+			$this->row_actions($actions), 
+			$required, 
+			$link, 
+			get_TEFUI()->render('form/field', array('item'=>$item)) 
+		);
 	}
 	
 	/**
