@@ -36,12 +36,21 @@ class UI{
 	 * Register all admin scripts (CSS and JavaScript)
 	 */
 	function register_admin_scripts(){
-	
-		wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable'), '1.0.0', true );
-		wp_enqueue_script( 'tef_admin_functions' );
-	
-		wp_register_style( 'tef_admin_style', TEF_URL.'/assets/css/admin-style.min.css', false, '1.0.0' );
-		wp_enqueue_style( 'tef_admin_style' );
+		$screens = array(
+			'toplevel_page_taxonomy-extra-fields',
+			'admin_page_tef-manage-taxonomy',
+		);
+		
+		if(in_array( get_current_screen()->id, $screens)){	
+			/*
+			 * TAXONOMY EXTRA FIELDS
+			 */
+			wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable'), '1.0.0', true );
+			wp_enqueue_script( 'tef_admin_functions' );
+		
+			wp_register_style( 'tef_admin_style', TEF_URL.'/assets/css/admin-style.min.css', false, '1.0.0' );
+			wp_enqueue_style( 'tef_admin_style' );
+		}
 	}
 	
 	function register_menus(){
@@ -175,9 +184,7 @@ class UI{
 			return $this->twig->render($file_name,$data);
 			
 		}
-		
-		
-		
+
 	}
 	
 }
