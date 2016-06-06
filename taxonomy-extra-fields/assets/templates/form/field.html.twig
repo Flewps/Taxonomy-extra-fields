@@ -1,37 +1,43 @@
 <table class="tef-form" id="form-field">
 	<form>
+		<input type="hidden" name="object" value="{{ item.json|default("") }}" />
+		<input type="hidden" name="ID" value="{{ item.ID|default(0) }}" />
+	
 		<thead>
 		
 		</thead>
 		<tbody>
 			<tr>
-				<th><label>Label</label></th>
-				<td><input type="text" name="label" placeholder=""></td>
+				<th><label>{{ translation.label|default('Label') }}</label></th>
+				<td><input type="text" name="label" placeholder="" value="{{ item.label|default("") }}"></td>
 			</tr>
 			<tr>
-				<th><label>Name</label></th>
-				<td><input type="text" name="name" placeholder=""></td>
+				<th><label>{{ translation.name|default('Name') }}</label></th>
+				<td><input type="text" name="name" placeholder="" value="{{ item.name|default("") }}"></td>
 			</tr>
 			<tr>
-				<th><label>Type</label></th>
+				<th><label>{{ translation.type|default('Type') }}</label></th>
 				<td>
 					<select>
-						<option>Select an option</option>
+						<option>{{ translation.select_option|default('Select an option') }}</option>
+						{% for field_type in field_types %}
+							<option value="{{ loop.index }}" {% if item.type == loop.index %} selected="selected" {% endif %}>{{ field_type.name }}</option>
+						{% endfor %}
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<th><label>Description</label></th>
-				<td><textarea rows="" cols=""></textarea></td>
+				<th><label>{{ translation.description|default('Description') }}</label></th>
+				<td><textarea rows="" cols="">{{ item.description|default("") }}</textarea></td>
 			</tr>
 			<tr>
-				<th><label>Required</label></th>
-				<td><input type="checkbox" name="required"></td>
+				<th><label>{{ translation.required|default('Required') }}</label></th>
+				<td><input type="checkbox" name="required" {% if item.required|default(0) %} checked="checked" {% endif %}></td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button class="button">Save</button>
-					<button class="button">Cancel</button>
+					<button class="button primary">{{ translation.save|default('Save') }}</button>
+					<button class="button">{{ translation.cancel|default('Cancel') }}</button>
 				</td>
 			</tr>
 		</tbody>

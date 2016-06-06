@@ -33,6 +33,8 @@ table, tr, td, th, tbody, thead{
 
     th#label{
       width: 15%;
+//TMP
+width: 500px;
     }
 
   }
@@ -72,7 +74,35 @@ table, tr, td, th, tbody, thead{
 
 .tef-form{
 
+  background: #FFF;
+  border: 1px solid #CCC;
+  min-width: 500px;
+  border-collapse: collapse;
+
   &:not(.visible){
-    display: none;
+    //TMP display: none;
   }
+
+  tr{
+    border: 1px solid #CCC;
+    border-bottom: 1px solid #EEE;
+
+    &:last-child{
+      border-bottom: none;
+    }
+
+    th{
+      width: 150px;
+    }
+
+    td{
+      input[type=text],
+      input[type=number],
+      textarea,
+      select{
+        width: 100%;
+      }
+    }
+  }
+
 }

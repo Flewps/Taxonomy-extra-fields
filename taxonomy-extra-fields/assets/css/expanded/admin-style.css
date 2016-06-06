@@ -30,6 +30,7 @@ table, tr, td, th, tbody, thead {
 
 .admin_page_tef-manage-taxonomy thead th#label {
   width: 15%;
+  width: 500px;
 }
 
 .admin_page_tef-manage-taxonomy tbody {
@@ -59,6 +60,29 @@ table, tr, td, th, tbody, thead {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
-.tef-form:not(.visible) {
-  display: none;
+.tef-form {
+  background: #FFF;
+  border: 1px solid #CCC;
+  min-width: 500px;
+  border-collapse: collapse;
+}
+
+.tef-form tr {
+  border: 1px solid #CCC;
+  border-bottom: 1px solid #EEE;
+}
+
+.tef-form tr:last-child {
+  border-bottom: none;
+}
+
+.tef-form tr th {
+  width: 150px;
+}
+
+.tef-form tr td input[type=text],
+.tef-form tr td input[type=number],
+.tef-form tr td textarea,
+.tef-form tr td select {
+  width: 100%;
 }

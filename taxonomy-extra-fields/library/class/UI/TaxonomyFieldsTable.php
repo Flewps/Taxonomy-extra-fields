@@ -94,6 +94,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					'type' => $field->get_type(),
 					'description' => $field->get_description(),
 					'required' => $field->get_required(),
+					'json' => $field->to_JSON(),
 				);
 			endforeach;
 		endif;
@@ -125,7 +126,22 @@ class TaxonomyFieldsTable extends \WP_List_table {
 			$this->row_actions($actions), 
 			$required, 
 			$link, 
-			get_TEFUI()->render('form/field', array('item'=>$item)) 
+			get_TEFUI()->render('form/field', array(
+				'item'=>$item,
+				'field_types' => tef_fields_types(),
+				'translation' => array(
+					'label' => __('Label','tef'),
+					'type' => __('Type','tef'),
+					'name' => __('name','tef'),
+					'description' => __('Description','tef'),
+					'options' => __('Options','tef'),
+					'required' => __('required','tef'),
+					'select_option' => __('Select an option','tef'),
+					'save' => __('Save','tef'),
+					'cancel' => __('Cancel','tef'),
+				),
+				
+			)) 
 		);
 	}
 	

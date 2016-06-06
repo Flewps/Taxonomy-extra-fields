@@ -277,10 +277,70 @@ abstract class Field{
 		);
 	}
 	
+	/**
+	 * Encode object to JSON
+	 * @return string
+	 */
+	function to_JSON(){
+		return json_encode(array(
+			'ID' => $this->ID,
+			'position' => $this->position,
+			'taxonomy' => $this->taxonomy,
+			'name' => $this->name,
+			'label' => $this->label,
+			'description' => $this->description,
+			'options' => $this->options,
+			'required' => $this->required,
+			'type' => $this->type,
+		));
+	}
+	
+	/**
+	 * Create OBJECT from JSON
+	 * @param string $JSON
+	 * @return boolean
+	 */
+	function from_JSON($JSON){
+		
+		$array = json_decode($JSON);
+		
+		if(!$array || !is_array($array))
+			return false;
+		
+		if(isset($array['ID']))
+			$this->set_ID( $array[''] );
+
+		if(isset($array['position']))
+			$this->set_position( $array['position'] );
+		
+		if(isset($array['taxonomy']))
+			$this->set_( $array['taxonomy'] );
+		
+		if(isset($array['name']))
+			$this->set_( $array['name'] );
+		
+		if(isset($array['label']))
+			$this->set_label( $array['label'] );
+		
+		if(isset($array['description']))
+			$this->set_description( $array['description'] );
+		
+		if(isset($array['options']))
+			$this->set_options( $array['options'] );
+			
+		if(isset($array['required']))
+			$this->set_required( $array['required'] );
+				
+		if(isset($array['type']))
+			$this->set_type( $array['type'] );
+		
+	}
 	
 	/**
 	 * Validate de data of Field Object for create/update
 	 */
 	abstract function validate($value);
+	
+	
 	
 }
