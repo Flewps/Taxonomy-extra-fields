@@ -43,6 +43,12 @@ class UI{
 		
 		if(in_array( get_current_screen()->id, $screens)){	
 			/*
+			 * FONT AWESOME 
+			 */
+			wp_register_style( 'font-awesome', TEF_URL.'/vendor/font-awesome-4.6.3/css/font-awesome.min.css', false, '1.0.0' );
+			wp_enqueue_style( 'font-awesome' );
+			
+			/*
 			 * TAXONOMY EXTRA FIELDS
 			 */
 			wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable'), '1.0.0', true );

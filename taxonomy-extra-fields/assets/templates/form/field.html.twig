@@ -1,42 +1,51 @@
-<table class="tef-form" id="form-field">
-	<form>
-		<input type="hidden" name="object" value="{{ item.json|default("") }}" />
-		<input type="hidden" name="ID" value="{{ item.ID|default(0) }}" />
+<form class="field-form">
+	<input type="hidden" name="unique" value="{{ unique }}" />
+	<input type="hidden" name="nonce" value="{{ nonce }}" />
+	<input type="hidden" name="object" value="{{ item.json|default("") }}" />
+	<input type="hidden" name="position" value="{{ item.position|default(position) }}" />
+	<input type="hidden" name="taxonomy" value="{{ item.taxonomy|default(taxonomy) }}" />
+	<input type="hidden" name="ID" value="{{ item.ID|default(0) }}" />
+	
+	<table class="tef-form" id="form-field">
 	
 		<thead>
 		
 		</thead>
 		<tbody>
 			<tr>
-				<th><label>{{ translation.label|default('Label') }}</label></th>
-				<td><input type="text" name="label" placeholder="" value="{{ item.label|default("") }}"></td>
+				<th><label for="label">{{ translation.label|default('Label') }}<span class="required">*</span></label></th>
+				<td><input type="text" name="label" placeholder="" value="{{ item.label|default("") }}" required="required"></td>
 			</tr>
 			<tr>
-				<th><label>{{ translation.name|default('Name') }}</label></th>
-				<td><input type="text" name="name" placeholder="" value="{{ item.name|default("") }}"></td>
-			</tr>
-			<tr>
-				<th><label>{{ translation.type|default('Type') }}</label></th>
+				<th><label for="name">{{ translation.name|default('Name') }}<span class="required">*</span></label></th>
 				<td>
-					<select>
-						<option>{{ translation.select_option|default('Select an option') }}</option>
-						{% for field_type in field_types %}
-							<option value="{{ loop.index }}" {% if item.type == loop.index %} selected="selected" {% endif %}>{{ field_type.name }}</option>
+					<input type="text" name="name" placeholder="" value="{{ item.name|default("") }}" required="required" readonly="readonly">
+					<a class="unlock-field"><i class="fa fa-unlock-alt"></i> {{ translation.unlock|default('Unlock') }}</a>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="type">{{ translation.type|default('Type') }}<span class="required">*</span></label></th>
+				<td>
+					<select name="type" required="required">
+						<option value="">{{ translation.select_option|default('Select an option') }}</option>
+						{% for key, field_type in field_types %}
+							<option value="{{ key }}" {% if item.type == key %} selected="selected" {% endif %}>{{ field_type.name }}</option>
 						{% endfor %}
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<th><label>{{ translation.description|default('Description') }}</label></th>
-				<td><textarea rows="" cols="">{{ item.description|default("") }}</textarea></td>
+				<th><label for="description">{{ translation.description|default('Description') }}</label></th>
+				<td><textarea name="description">{{ item.description|default("") }}</textarea></td>
 			</tr>
 			<tr>
-				<th><label>{{ translation.required|default('Required') }}</label></th>
+				<th><label for="required">{{ translation.required|default('Required') }}</label></th>
 				<td><input type="checkbox" name="required" {% if item.required|default(0) %} checked="checked" {% endif %}></td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					<button class="button primary">{{ translation.save|default('Save') }}</button>
+				<th></th>
+				<td class="actions">
+					<button class="button button-primary button-large"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ translation.save|default('Save') }}</button>
 					<button class="button">{{ translation.cancel|default('Cancel') }}</button>
 				</td>
 			</tr>
@@ -44,5 +53,5 @@
 		<tfoot>
 		
 		</tfoot>
-	</form>
-</table>
+	</table>
+</form>

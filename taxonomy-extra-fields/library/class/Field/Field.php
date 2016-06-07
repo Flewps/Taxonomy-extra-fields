@@ -81,10 +81,12 @@ abstract class Field{
 	 */
 	function set_taxonomy($taxonomy){
 		
+		$taxonomies = array_merge(array('all'), get_taxonomies());
+		
 		if(is_string($taxonomy)){
 			$taxonomy = sanitize_title( $taxonomy );
 			
-			if(in_array($taxonomy, get_taxonomies() ))
+			if(in_array($taxonomy, $taxonomies))
 				$this->taxonomy = $taxonomy;
 		}
 			
@@ -208,12 +210,13 @@ abstract class Field{
 	 */
 	function save(){
 		global $wpdb;
-		
+
 		// Create new
 		if(is_null($this->ID))
-			return $wpdb->insert(
+			if($wpdb->insert(
 				TEF_FIELD_TABLE_NAME,
 				array(
+					'position' => $this->position,
 					'taxonomy' => $this->taxomy,
 					'label' => $this->label,
 					'name' => $this->name,
@@ -223,6 +226,7 @@ abstract class Field{
 					'options' => json_encode( $this->options ),
 				),
 				array(
+					'%d',
 					'%s',
 					'%s',
 					'%s',
@@ -231,13 +235,16 @@ abstract class Field{
 					'%d',
 					'%s',
 				)
-			);
+			))
+				return $wpdb->insert_id;
+			
 		// Update existing
 		else
-			return $wpdb->update(
+			if($wpdb->update(
 				TEF_FIELD_TABLE_NAME,
 				array(
-					'taxonomy' => $this->taxomy,
+					'position' => $this->position,
+					'taxonomy' => $this->taxonomy,
 					'label' => $this->label,
 					'name' => $this->name,
 					'type' => $this->type,
@@ -249,6 +256,7 @@ abstract class Field{
 					'ID' => $this->ID,
 				),
 				array(
+					'%d',
 					'%s',
 					'%s',
 					'%s',
@@ -258,9 +266,10 @@ abstract class Field{
 					'%s',
 				),
 				array(
-					'$d',
+					'%d',
 				)
-			);
+			))
+				return $this->ID;
 		
 	}
 	
@@ -294,7 +303,7 @@ abstract class Field{
 			'type' => $this->type,
 		));
 	}
-	
+
 	/**
 	 * Create OBJECT from JSON
 	 * @param string $JSON
@@ -342,5 +351,31 @@ abstract class Field{
 	abstract function validate($value);
 	
 	
-	
+	static function save_field($ID,$position,$taxonomy,$name,$label,$description,$options,$required,$type){
+		
+		$types = tef_fields_types();
+		$taxonomies = array_merge(array('all'), get_taxonomies());
+		
+		if(!in_array($taxonomy, $taxonomies))
+			return 0;
+		
+		if(!in_array($type, array_keys($types)))
+			return 0;
+		
+		if(!class_exists($types[$type]['object']))
+			return 0;
+		
+		$field = new $types[$type]['object']($ID);
+				
+		$field->set_position($position);
+		$field->set_taxonomy($taxonomy);
+		$field->set_name($name);
+		$field->set_label($label);
+		$field->set_description($description);
+		$field->set_options($options);
+		$field->set_required($required);
+		$field->set_type($type);
+		
+		return $field->save();
+	}
 }

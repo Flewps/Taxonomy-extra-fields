@@ -111,7 +111,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 		$link = '?page='.$page.'&ID='.$item['ID'];
 
 		$actions = array(
-			'edit' => '<a href="'.$link.'" data-open="form-field">'.__('Edit','tef').'</a>',
+			'edit' => '<a href="'.$link.'">'.__('Edit','tef').'</a>',
 			'delete' => sprintf('<a href="?page=%1$s&ID=%2$s">Delete</a>', 'tef-delete-field', $item['ID']),
 		);
 	
@@ -128,17 +128,22 @@ class TaxonomyFieldsTable extends \WP_List_table {
 			$link, 
 			get_TEFUI()->render('form/field', array(
 				'item'=>$item,
+				'taxonomy'=>$item['taxonomy'],
+				'position'=>$item['position'],
 				'field_types' => tef_fields_types(),
+				'unique' => $unique = rand(1000,9999),
+				'nonce' => wp_create_nonce('save_field_'.$unique),
 				'translation' => array(
 					'label' => __('Label','tef'),
 					'type' => __('Type','tef'),
-					'name' => __('name','tef'),
+					'name' => __('Name','tef'),
 					'description' => __('Description','tef'),
 					'options' => __('Options','tef'),
-					'required' => __('required','tef'),
+					'required' => __('Required','tef'),
 					'select_option' => __('Select an option','tef'),
 					'save' => __('Save','tef'),
 					'cancel' => __('Cancel','tef'),
+					'unlock' => __('Unlock','tef'),
 				),
 				
 			)) 
@@ -161,10 +166,12 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					return $types[ $item['type'] ]['name'];
 				else
 					return __('Unknow','tef');
+			case 'ID':
 			case 'taxonomy':
 			case 'name':
 			case 'description':
 			case 'required':
+			case 'json':
 				return $item[ $column_name ];
 			default:
 				return $item;

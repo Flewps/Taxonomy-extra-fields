@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
 require_once 'field_types.php';
+require_once 'ajax.php';
 
 /**
  * 

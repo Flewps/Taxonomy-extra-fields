@@ -46,6 +46,27 @@ width: 500px;
       min-width: 100%;
       max-width: 100%;
 
+      &.in-edition{
+        .row-actions{
+          opacity: 0;
+        }
+
+        td.label{
+          column-span: 4;
+        }
+
+        td.name,
+        td.type,
+        td.description{
+          display: none;
+        }
+
+        table.tef-form{
+          display: table;
+        }
+
+      }
+
       td.position{
         text-align: center;
         font-weight: bold;
@@ -77,10 +98,12 @@ width: 500px;
   background: #FFF;
   border: 1px solid #CCC;
   min-width: 500px;
+  max-width: 100%;
+  width: 50%;
   border-collapse: collapse;
 
   &:not(.visible){
-    //TMP display: none;
+    display: none;
   }
 
   tr{
@@ -93,14 +116,60 @@ width: 500px;
 
     th{
       width: 150px;
+      font-weight: bold;
     }
 
     td{
+      position: relative;
+
       input[type=text],
       input[type=number],
       textarea,
       select{
         width: 100%;
+      }
+
+      input:not([readonly=readonly]) + a.unlock-field{
+        display: none;
+      }
+
+      input[readonly=readonly] + a.unlock-field{
+        position: absolute;
+        opacity: 0;
+        top: 0; left: 0;
+        width: calc(100% - 18px);
+        height: calc(100% - 16px);
+        margin: 8px 10px;
+        transition: all .2s;
+        color: #333;
+        line-height: 30px;
+        padding-left: 10px;
+        box-sizing: border-box;
+        cursor: pointer;
+        background: #e7f1ff;
+        border: 1px solid #CCC;
+        font-size: 1.3em;
+        box-shadow: 1px 1px 1px rgba(0,0,0,0.05);
+
+        &:hover{
+          opacity: 1;
+
+        }
+      }
+
+      textarea{
+        min-height: 200px;
+      }
+
+      &.actions{
+        text-align: right;
+
+        button{
+          i{
+            font-size: 1.2em;
+            margin-right: 5px;
+          }
+        }
       }
     }
   }
