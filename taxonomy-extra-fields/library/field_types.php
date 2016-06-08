@@ -2,7 +2,7 @@
 /**
  * Get fields types
  */
-function tef_fields_types(){
+function tef_fields_types($field=null){
 
 	// Predefined Types
 	$types = array(
@@ -35,5 +35,20 @@ function tef_fields_types(){
 	// Add your own Field Type on array (key: field identificator, value: class of instance)
 	$types = apply_filters( 'tef_fields_types', $types);
 	
+	
+	if( !is_null( $field ) ){
+		$tmp_array = array();
+		
+		if($field == "names"){
+
+			foreach($types as $type => $obj){
+				$tmp_array[$type] = $obj['name'];
+			}
+			
+			return $tmp_array;
+		}
+		
+	}
+		
 	return $types;
 }

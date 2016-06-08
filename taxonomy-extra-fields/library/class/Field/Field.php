@@ -211,65 +211,46 @@ abstract class Field{
 	function save(){
 		global $wpdb;
 
+		$data = array(
+			'position' => $this->position,
+			'taxonomy' => $this->taxonomy,
+			'label' => $this->label,
+			'name' => $this->name,
+			'type' => $this->type,
+			'description' => $this->description,
+			'required' => $this->required,
+			'options' => json_encode( $this->options ),
+		);
+		$data_format = array(
+			'%d',
+			'%s',
+			'%s',
+			'%s',
+			'%s',
+			'%s',
+			'%d',
+			'%s',
+		);
+		
 		// Create new
-		if(is_null($this->ID))
-			if($wpdb->insert(
-				TEF_FIELD_TABLE_NAME,
-				array(
-					'position' => $this->position,
-					'taxonomy' => $this->taxomy,
-					'label' => $this->label,
-					'name' => $this->name,
-					'type' => $this->type,
-					'description' => $this->description,
-					'required' => $this->required,
-					'options' => json_encode( $this->options ),
-				),
-				array(
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%d',
-					'%s',
-				)
-			))
-				return $wpdb->insert_id;
+		if(is_null($this->ID) || $this->ID == 0){
+			
+			if($wpdb->insert(TEF_FIELD_TABLE_NAME,$data,$data_format)){
+				$this->ID = $wpdb->insert_id;
+				return $this->to_JSON();
+			}else
+				return 0;
 			
 		// Update existing
-		else
-			if($wpdb->update(
-				TEF_FIELD_TABLE_NAME,
-				array(
-					'position' => $this->position,
-					'taxonomy' => $this->taxonomy,
-					'label' => $this->label,
-					'name' => $this->name,
-					'type' => $this->type,
-					'description' => $this->description,
-					'required' => $this->required,
-					'options' => json_encode( $this->options ),
-				),
-				array(
-					'ID' => $this->ID,
-				),
-				array(
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%d',
-					'%s',
-				),
-				array(
-					'%d',
-				)
-			))
-				return $this->ID;
+		}else{
+			
+			if($wpdb->update(TEF_FIELD_TABLE_NAME, $data,array('ID' => $this->ID,),$data_format,array('%d')))
+				return $this->to_JSON();
+			else
+				return 0;
+			
+		}
+			
 		
 	}
 	

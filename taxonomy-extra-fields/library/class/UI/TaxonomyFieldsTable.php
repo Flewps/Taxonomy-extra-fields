@@ -121,7 +121,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 			$required = '';
 		
 		return sprintf(
-			'<strong><a class="row-title" href="%4$s">%1$s %3$s</a></strong> %2$s %5$s', 
+			'<strong><a class="row-title" href="%4$s"><span class="label">%1$s</span> %3$s</a></strong> %2$s %5$s', 
 			$item['label'], 
 			$this->row_actions($actions), 
 			$required, 

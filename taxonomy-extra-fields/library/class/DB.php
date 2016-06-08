@@ -54,7 +54,8 @@ class DB{
 			required TINYINT(1),
 			options LONGTEXT,
 			PRIMARY KEY ID (ID),
-			UNIQUE KEY ID_position (ID, position)
+			UNIQUE KEY ID_position (ID, position),
+			UNIQUE KEY taxonomy_name (taxonomy, name)
 		) $charset_collate;";
 		
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

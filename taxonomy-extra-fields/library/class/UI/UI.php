@@ -49,6 +49,18 @@ class UI{
 			wp_enqueue_style( 'font-awesome' );
 			
 			/*
+			 * FONT AWESOME
+			 */
+			wp_register_style( 'animate-css', TEF_URL.'/vendor/animate-css/animate.css', false, '1.0.0' );
+			wp_enqueue_style( 'animate-css' );
+			
+			/*
+			 * NOTY 
+			 */
+			wp_register_script( 'jquery-noty', TEF_URL.'/vendor/noty/packaged/jquery.noty.packaged.min.js', array('jquery'), '2.3.8', true );
+			wp_enqueue_script( 'jquery-noty' );
+			
+			/*
 			 * TAXONOMY EXTRA FIELDS
 			 */
 			wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable'), '1.0.0', true );
