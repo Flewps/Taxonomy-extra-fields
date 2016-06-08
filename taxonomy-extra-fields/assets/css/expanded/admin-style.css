@@ -1,3 +1,7 @@
+table, tr, td, th, tbody, thead {
+  box-sizing: content-box;
+}
+
 .tef-water-mark {
   position: fixed;
   right: 30px;
@@ -26,6 +30,7 @@
 
 .admin_page_tef-manage-taxonomy thead th#label {
   width: 15%;
+  width: 500px;
 }
 
 .admin_page_tef-manage-taxonomy tbody {
@@ -35,6 +40,24 @@
 .admin_page_tef-manage-taxonomy tbody tr {
   min-width: 100%;
   max-width: 100%;
+}
+
+.admin_page_tef-manage-taxonomy tbody tr.in-edition .row-actions {
+  opacity: 0;
+}
+
+.admin_page_tef-manage-taxonomy tbody tr.in-edition td.label {
+  column-span: 4;
+}
+
+.admin_page_tef-manage-taxonomy tbody tr.in-edition td.name,
+.admin_page_tef-manage-taxonomy tbody tr.in-edition td.type,
+.admin_page_tef-manage-taxonomy tbody tr.in-edition td.description {
+  display: none;
+}
+
+.admin_page_tef-manage-taxonomy tbody tr.in-edition table.tef-form {
+  display: table;
 }
 
 .admin_page_tef-manage-taxonomy tbody tr td.position {
@@ -53,4 +76,83 @@
 .admin_page_tef-manage-taxonomy tbody tr.ui-sortable-helper {
   background: #e7f1ff;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tef-form {
+  background: #FFF;
+  border: 1px solid #CCC;
+  min-width: 500px;
+  max-width: 100%;
+  width: 50%;
+  border-collapse: collapse;
+}
+
+.tef-form:not(.visible) {
+  display: none;
+}
+
+.tef-form tr {
+  border: 1px solid #CCC;
+  border-bottom: 1px solid #EEE;
+}
+
+.tef-form tr:last-child {
+  border-bottom: none;
+}
+
+.tef-form tr th {
+  width: 150px;
+  font-weight: bold;
+}
+
+.tef-form tr td {
+  position: relative;
+}
+
+.tef-form tr td input[type=text],
+.tef-form tr td input[type=number],
+.tef-form tr td textarea,
+.tef-form tr td select {
+  width: 100%;
+}
+
+.tef-form tr td input:not([readonly=readonly]) + a.unlock-field {
+  display: none;
+}
+
+.tef-form tr td input[readonly=readonly] + a.unlock-field {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: calc(100% - 18px);
+  height: calc(100% - 16px);
+  margin: 8px 10px;
+  transition: all .2s;
+  color: #333;
+  line-height: 30px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: #e7f1ff;
+  border: 1px solid #CCC;
+  font-size: 1.3em;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.tef-form tr td input[readonly=readonly] + a.unlock-field:hover {
+  opacity: 1;
+}
+
+.tef-form tr td textarea {
+  min-height: 200px;
+}
+
+.tef-form tr td.actions {
+  text-align: right;
+}
+
+.tef-form tr td.actions button i {
+  font-size: 1.2em;
+  margin-right: 5px;
 }

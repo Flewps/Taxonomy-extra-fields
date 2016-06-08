@@ -94,6 +94,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					'type' => $field->get_type(),
 					'description' => $field->get_description(),
 					'required' => $field->get_required(),
+					'json' => $field->to_JSON(),
 				);
 			endforeach;
 		endif;
@@ -119,7 +120,34 @@ class TaxonomyFieldsTable extends \WP_List_table {
 		else 
 			$required = '';
 		
-		return sprintf('<strong><a class="row-title" href="%4$s">%1$s %3$s</a></strong> %2$s', $item['label'], $this->row_actions($actions), $required, $link );
+		return sprintf(
+			'<strong><a class="row-title" href="%4$s"><span class="label">%1$s</span> %3$s</a></strong> %2$s %5$s', 
+			$item['label'], 
+			$this->row_actions($actions), 
+			$required, 
+			$link, 
+			get_TEFUI()->render('form/field', array(
+				'item'=>$item,
+				'taxonomy'=>$item['taxonomy'],
+				'position'=>$item['position'],
+				'field_types' => tef_fields_types(),
+				'unique' => $unique = rand(1000,9999),
+				'nonce' => wp_create_nonce('save_field_'.$unique),
+				'translation' => array(
+					'label' => __('Label','tef'),
+					'type' => __('Type','tef'),
+					'name' => __('Name','tef'),
+					'description' => __('Description','tef'),
+					'options' => __('Options','tef'),
+					'required' => __('Required','tef'),
+					'select_option' => __('Select an option','tef'),
+					'save' => __('Save','tef'),
+					'cancel' => __('Cancel','tef'),
+					'unlock' => __('Unlock','tef'),
+				),
+				
+			)) 
+		);
 	}
 	
 	/**
@@ -138,10 +166,12 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					return $types[ $item['type'] ]['name'];
 				else
 					return __('Unknow','tef');
+			case 'ID':
 			case 'taxonomy':
 			case 'name':
 			case 'description':
 			case 'required':
+			case 'json':
 				return $item[ $column_name ];
 			default:
 				return $item;
