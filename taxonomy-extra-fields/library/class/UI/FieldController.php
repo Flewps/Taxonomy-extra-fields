@@ -4,7 +4,7 @@ namespace tef\UI;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
-use \tef\UI\TaxonomyFieldsTable;
+use \tef\Auxiliary\TaxonomyFieldsTable;
 
 /**
  * 

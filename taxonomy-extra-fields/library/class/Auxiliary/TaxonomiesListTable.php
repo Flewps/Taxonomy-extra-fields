@@ -1,6 +1,6 @@
 <?php
 
-namespace tef\UI;
+namespace tef\Auxiliary;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 

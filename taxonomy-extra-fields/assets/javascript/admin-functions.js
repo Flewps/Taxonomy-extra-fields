@@ -19,9 +19,49 @@ jQuery( document ).ready(function( $ ) {
 	}).disableSelection();
 	
 	
-	// TABLE TAXONOMY FIELDS
+	// LISTENERS
+	$('#tef-admin').on('submit', 'form.field-form', tef_save_field);
 	
-	$('#tef-admin form.field-form').on('submit', function(event){
+	$('#tef-admin').on('click', '.row-actions .edit a', tef_set_row_in_edition);
+	
+	$('#tef-admin').on('click', 'a.unlock-field', tef_unlock_field);
+	
+	$('#tef-admin').on('click', '.add-new-field', tef_add_new_field);
+
+	
+	/**
+	 * 
+	 */
+	function tef_row_actualize( row, data ){
+		
+		row.find('td.ID').html(data.ID);
+		
+		row.find('td.taxonomy').html(data.taxonomy);
+		
+		row.find('td.position input').attr('name','field['+data.ID+']').val(data.position);
+		
+		row.find('td.label span.label').html(data.label);
+
+		if(data.required){
+			if(0 == row.find('td.label a.row-title span.required').length)
+				row.find('td.label a.row-title').append('<span class="required">*</span>');		
+		}else
+			row.find('td.label a.row-title span.required').remove();
+		
+		row.find('td.name').html(data.name);
+		
+		row.find('td.type').html(tef.translations.types[data.type]);
+		
+		row.find('td.description').html(data.description);
+		
+		row.find('td.required').html(data.required);
+		
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_save_field(event){
 		event.preventDefault();
 		var form = $(this),
 			container = $(this).closest('tr'),
@@ -36,10 +76,7 @@ jQuery( document ).ready(function( $ ) {
 			},
 			success: function(result){
 				if(result != 0){
-					
-					console.log( result );
-					
-					row_actualize(container, JSON.parse(result) );
+					tef_row_actualize(container, JSON.parse(result) );
 					container.removeClass('in-edition');
 					label_col.removeAttr('colspan');
 
@@ -65,21 +102,12 @@ jQuery( document ).ready(function( $ ) {
 			}
 		});
 		
-	});
-	
-	$('#tef-admin .row-actions .edit a').on('click',function(event){
-		event.preventDefault();
-		
-		var container = $(this).closest('tr'),
-			label_col = container.find('td.label');
-		
-		container.addClass('in-edition');
-		
-		label_col.attr('colspan',4);
-		
-	});
-	
-	$('#tef-admin a.unlock-field').on('click', function(){
+	}
+
+	/**
+	 * 
+	 */
+	function tef_unlock_field(){
 		
 		var elem = $(this);
 		
@@ -116,34 +144,64 @@ jQuery( document ).ready(function( $ ) {
 			
 		}
 			//
-	});
+	}
+
+
+	/**
+	 * 
+	 */
+	function tef_set_row_in_edition(event){
+		event.preventDefault();
+		
+		var container = $(this).closest('tr'),
+			label_col = container.find('td.label');
+		
+		container.addClass('in-edition');
+		
+		label_col.attr('colspan',4);
+		
+	}
 	
-	
+	/**
+	 * 
+	 */
+	function tef_add_new_field(event){
+		
+		event.preventDefault();
+		
+		
+		
+		var data = $('form#defaults');
+		
+		jQuery.ajax({
+			method: 'POST',
+			url: ajaxurl,
+			data: {
+				action: 'tef_get_row_template',
+				data: data.serialize(),
+			},
+			success: function(result){
+				
+				if( result ){
+					var html = jQuery.parseHTML( result );
+					
+					//$(html).addClass('in-edition');
+				
+					$('table.admin_page_tef-manage-taxonomy tr.no-items').fadeOut(500);
+					
+					$('table.admin_page_tef-manage-taxonomy > tbody').delay(500).append( html );
+					
+					$('.row-actions .edit a', html).click();
+					
+					$('input[name=label]',html).focus();
+				}
+				
+			},
+			error: function(){
+				console.error('ERROR!');
+			}
+		});
+		
+	}
 	
 });
-
-function row_actualize( row, data ){
-	
-	row.find('td.ID').html(data.ID);
-	
-	row.find('td.taxonomy').html(data.taxonomy);
-	
-	row.find('td.position input').attr('name','field['+data.ID+']').val(data.position);
-	
-	row.find('td.label span.label').html(data.label);
-
-	if(data.required){
-		if(0 == row.find('td.label a.row-title span.required').length)
-			row.find('td.label a.row-title').append('<span class="required">*</span>');		
-	}else
-		row.find('td.label a.row-title span.required').remove();
-	
-	row.find('td.name').html(data.name);
-	
-	row.find('td.type').html(tef.translations.types[data.type]);
-	
-	row.find('td.description').html(data.description);
-	
-	row.find('td.required').html(data.required);
-	
-}

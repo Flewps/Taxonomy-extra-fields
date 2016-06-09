@@ -3,8 +3,8 @@ namespace tef\UI;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
-use \tef\UI\TaxonomyFieldsTable;
-
+use \tef\Auxiliary\TaxonomyFieldsTable;
+use \tef\Auxiliary\TaxonomiesListTable;
 /**
  *
  * @author GuilleGarcia
@@ -66,11 +66,16 @@ class TaxonomyController{
 			'title' => sprintf( __('Taxonomy: %s','tef'), $taxonomy->label),
 			'taxonomy' => $taxonomy,
 			'table' => $table,
+			'translations' => array(
+				'addnew' => __('Add new field', 'tef'),
+				
+			),
+			'url_new' => '?page=tef-new-field&taxonomy='.$taxonomy->name,
 		);
 		
 		echo get_TEFUI()->render('admin/manage-taxonomy', $data);
 
 	}
-	
+		
 
 }

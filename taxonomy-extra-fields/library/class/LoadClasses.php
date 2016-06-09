@@ -18,12 +18,15 @@ class LoadClasses{
 		require_once 'UI/UI.php';
 		require_once 'UI/FieldController.php';
 		require_once 'UI/TaxonomyController.php';
-		require_once 'UI/TaxonomiesListTable.php';
-		require_once 'UI/TaxonomyFieldsTable.php';
+		
+		// Auxiliary
+		require_once 'Auxiliary/TaxonomiesListTable.php';
+		require_once 'Auxiliary/TaxonomyFieldsTable.php';
 		
 		// Fields
 		require_once 'Field/FieldsList.php';
 		require_once 'Field/Field.php';
+		require_once 'Field/NoTypeField.php';
 		require_once 'Field/FileField.php';
 		require_once 'Field/ImageField.php';
 		require_once 'Field/LongTextField.php';

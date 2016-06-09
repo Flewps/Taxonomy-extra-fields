@@ -2,6 +2,9 @@
 
 
 use tef\Field\Field;
+use tef\Field\NoTypeField;
+use tef\Auxiliary\TaxonomyFieldsTable;
+
 function tef_save_field(){
 	$form = array();
 	
@@ -87,3 +90,45 @@ function tef_save_field(){
 	die(0);
 }
 add_action( 'wp_ajax_tef_save_field', 'tef_save_field' );
+
+
+function tef_get_row_template(){
+	
+	if(isset($_POST['data'])){
+		$data_defaults = array(
+			'position' => 0,
+			'taxonomy' => 'all',
+		);
+		
+		$data = array();
+
+		parse_str($_POST['data'], $data);
+		
+		$data = wp_parse_args($data, $data_defaults );
+		
+		$table = new TaxonomyFieldsTable( $data['taxonomy'] );
+		$table->prepare_columns();
+		
+		$field = new NoTypeField( 0 );
+		$field->set_taxonomy( $data['taxonomy'] );
+		$field->set_position( $data['position'] );
+
+		$item = array(
+			'ID' => 0,
+			'taxonomy' => $data['taxonomy'],
+			'position' => $data['position'],
+			'name' => "",
+			'label' => "",
+			'type' => "",
+			'description' => "",
+			'required' => 0,
+			'json' => $field->to_JSON(),
+		);
+
+		die( $table->single_row( $item ) );
+		
+	}
+	
+	die(0);
+}
+add_action( 'wp_ajax_tef_get_row_template', 'tef_get_row_template' );
