@@ -28,34 +28,64 @@ jQuery( document ).ready(function( $ ) {
 	
 	$('#tef-admin').on('click', '.add-new-field', tef_add_new_field);
 
+	/**
+	 * 
+	 */
+	$('#tef-admin').on('click', 'form.field-form button[name=cancel]', function(){
+		var form =  $(this).closest('form'),
+			container = form.closest('tr'),
+			label_col = container.find('td.label'),
+			json_value = form.find('input[name=object]').val(),
+			data = JSON.parse( json_value );
+
+		tef_row_actualize(container, data);
+
+		container.removeClass('in-edition');
+		label_col.removeAttr('colspan');
+	});
 	
 	/**
 	 * 
 	 */
 	function tef_row_actualize( row, data ){
 		
+		var form = $(row).find('form.field-form');
+		
 		row.find('td.ID').html(data.ID);
+		form.find('input[name="ID"]').val( data.ID );
 		
 		row.find('td.taxonomy').html(data.taxonomy);
+		form.find('input[name="taxonomy"]').val( data.taxonomy );
 		
 		row.find('td.position input').attr('name','field['+data.ID+']').val(data.position);
+		form.find('input[name="position"]').val( data.position );
 		
 		row.find('td.label span.label').html(data.label);
+		form.find('input[name="label"]').val( data.label );
 
 		if(data.required){
-			if(0 == row.find('td.label a.row-title span.required').length)
+			if(0 == row.find('td.label a.row-title span.required').length){
 				row.find('td.label a.row-title').append('<span class="required">*</span>');		
-		}else
+				
+			}
+			form.find('input[name="required"]').attr('checked','checked');
+		}else{
 			row.find('td.label a.row-title span.required').remove();
+			form.find('input[name="required"]').removeAttr('checked');
+		}
+		row.find('td.required').html(data.required);
+			
 		
 		row.find('td.name').html(data.name);
+		form.find('input[name="name"]').val( data.name );
 		
 		row.find('td.type').html(tef.translations.types[data.type]);
+		form.find('select[name="type"] option[value="'+data.type+'"]').attr('selected','selected');
 		
 		row.find('td.description').html(data.description);
-		
-		row.find('td.required').html(data.required);
-		
+		form.find('textarea[name="description"]').val( data.description );
+
+		form.find('input[name="object"]').val( JSON.stringify(data) );
 	}
 	
 	/**
