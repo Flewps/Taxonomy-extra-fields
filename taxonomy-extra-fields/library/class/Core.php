@@ -8,11 +8,11 @@ use \tef\DB;
 use \tef\LoadClasses;
 
 /**
- * Class TaxonomyExtraFields
+ * Class Core
  * @since 0.0.01
  * @author GuilleGarcia
  */
-final class TaxonomyExtraFields{
+final class Core{
 	
 	static public $instance = NULL;
 	
@@ -48,8 +48,8 @@ final class TaxonomyExtraFields{
 	}
 	
 	/**
-	 * Function that create and return an instance of TaxonomyExtraFields
-	 * @return TaxonomyExtraFields
+	 * Function that create and return an instance of Core
+	 * @return Core
 	 */
 	static function init(){
 		

@@ -7,17 +7,17 @@ require_once 'ajax.php';
 
 /**
  * 
- * @return \tef\TaxonomyExtraFields
+ * @return \tef\Core
  */
 function tef_getInstance(){
 	
-	return \tef\TaxonomyExtraFields::init();
+	return \tef\Core::init();
 	
 }
 
 /**
  * 
- * @return \tef\TaxonomyExtraFields
+ * @return \tef\Core
  */
 function get_TEF(){
 	return tef_getInstance();
