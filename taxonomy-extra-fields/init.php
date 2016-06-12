@@ -40,7 +40,7 @@ define('TEF_FIELD_TABLE_NAME', $wpdb->prefix."tef_fields");
  * Load required classes
  */
 require_once 'library/class/LoadClasses.php';
-require_once 'library/class/TaxonomyExtraFields.php';
+require_once 'library/class/Core.php';
 
 /*
  * Load required files
@@ -50,4 +50,4 @@ require_once 'library/functions.php';
 /*
  * Initialize the plugin
  */
-\tef\TaxonomyExtraFields::init();
+\tef\Core::init();

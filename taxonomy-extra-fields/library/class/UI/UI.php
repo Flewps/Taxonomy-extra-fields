@@ -128,6 +128,13 @@ class UI{
 				'function' => array(new TaxonomyController, 'manageAction'),
 			),
 			array(
+				'page_title' => __('New Field','tef'),
+				'menu_title' => __('New Field','tef'),
+				'capability' => 'manage_options',
+				'menu_slug' => 'tef-new-field',
+				'function' => array(new FieldController, 'newAction'),
+			),
+			array(
 				'page_title' => __('Edit Field','tef'),
 				'menu_title' => __('Edit Field','tef'),
 				'capability' => 'manage_options',

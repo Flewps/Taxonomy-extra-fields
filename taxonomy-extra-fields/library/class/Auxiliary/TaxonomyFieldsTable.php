@@ -1,10 +1,11 @@
 <?php
 
-namespace tef\UI;
+namespace tef\Auxiliary;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
 use tef\Field\FieldList;
+use tef\Field\TextField;
 
 if( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -76,9 +77,16 @@ class TaxonomyFieldsTable extends \WP_List_table {
 	/**
 	 * 
 	 */
+	function prepare_columns(){
+		$this->_column_headers = array($this->get_columns(), $this->get_columns_hidden(), $this->get_columns_sortables());
+	}
+	
+	/**
+	 * 
+	 */
 	function prepare_items() {
 
-		$this->_column_headers = array($this->get_columns(), $this->get_columns_hidden(), $this->get_columns_sortables());
+		$this->prepare_columns();
 
 		$fieldList = new FieldList( $this->taxonomy_name );
 		$fieldList->set_from_db();
@@ -100,6 +108,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 		endif;
 	}
 	
+
 	/**
 	 * 
 	 * @param unknown $item
@@ -122,7 +131,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 		
 		return sprintf(
 			'<strong><a class="row-title" href="%4$s"><span class="label">%1$s</span> %3$s</a></strong> %2$s %5$s', 
-			$item['label'], 
+			$item['label'] ? $item['label'] : __('New Field','tef'), 
 			$this->row_actions($actions), 
 			$required, 
 			$link, 
@@ -182,7 +191,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 	 * 
 	 */
 	function no_items() {
-		echo '<h2>'.__( 'No custom fields found.', 'tef' ).' <a class="button button-primary button-large" href="#">'.__('Add new','tef').'</a></h2>';
+		echo '<h2>'.__( 'No custom fields found.', 'tef' ).' <a href="?page=tef-new-field&taxonomy='.$this->taxonomy_name.'" class="button button-primary add-new-field">'.__('Add new field', 'tef').'</a></h2>';
 	}
 	
 	

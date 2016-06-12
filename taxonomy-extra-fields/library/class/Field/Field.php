@@ -265,6 +265,7 @@ abstract class Field{
 			array('ID' => $this->ID),
 			array('%d')
 		);
+		
 	}
 	
 	/**
@@ -358,5 +359,13 @@ abstract class Field{
 		$field->set_type($type);
 		
 		return $field->save();
+	}
+	
+	static function delete_field($ID){
+		
+		$field = new NoTypeField( intval( $ID ) );
+		
+		return $field->delete();
+		
 	}
 }
