@@ -92,6 +92,46 @@ function tef_save_field(){
 add_action( 'wp_ajax_tef_save_field', 'tef_save_field' );
 
 
+/**
+ * 
+ */
+function tef_delete_field(){
+	
+	$form = array();
+	
+	if(isset($_POST['form'])){
+	
+		parse_str( $_POST['form'], $form );
+	
+		if(!isset($form['unique']) || !isset($form['nonce'])){
+			die(0);
+		}
+	
+		if(!wp_verify_nonce($form['nonce'], 'save_field_'.intval($form['unique']) )){
+			die(0);
+		}
+	
+		/* -- SANITIZE AND CONTROLE REQUIRED FIELDS -- */
+		// ID
+		if(isset($form['ID'])){
+			$ID = intval( $form['ID'] );
+		}else{
+			die(0);
+		}
+		
+		echo Field::delete_field($ID);
+		
+		
+		die();
+		
+	}
+	
+	die(0);
+}
+add_action( 'wp_ajax_tef_delete_field', 'tef_delete_field' );
+
+
+
 function tef_get_row_template(){
 	
 	if(isset($_POST['data'])){

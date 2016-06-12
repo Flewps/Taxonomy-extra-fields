@@ -38,6 +38,7 @@ function tef_js_translations(){
 			'translations' => array(
 				'msg' => array(
 					'confirm' => __('Do you want to continue?','tef'),
+					'confirm_delete' => __('Do you want remove this field?', 'tef'),
 					'save' => __('Save','tef'),
 					'accept' => __('Accept','tef'),
 					'saved' => __('Saved','tef'),

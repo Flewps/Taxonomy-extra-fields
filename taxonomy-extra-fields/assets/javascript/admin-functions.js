@@ -24,10 +24,75 @@ jQuery( document ).ready(function( $ ) {
 	
 	$('#tef-admin').on('click', '.row-actions .edit a', tef_set_row_in_edition);
 	
+	$('#tef-admin').on('click', '.row-actions .delete a', function(event){
+		
+		event.preventDefault();
+		
+		var tr = $(this).closest('tr'),
+			form = tr.find('form.field-form');
+		
+		var n = noty({
+			layout: 'center',
+			//timeout: 1000,
+			text: tef.translations.msg.confirm_delete,
+			type: 'alert',
+			 dismissQueue: true,
+		    modal: true,
+			animation: {
+		        open: 'animated pulse', // Animate.css class names
+		        close: 'animated fadeOut', // Animate.css class names
+		        easing: 'swing', // unavailable - no need
+		        speed: 200, // unavailable - no need  
+		    },
+		    buttons: [
+			   {
+				   addClass: 'button button-primary', text: tef.translations.msg.accept, onClick: function ($noty) {
+
+					   jQuery.ajax({
+							method: 'POST',
+							url: ajaxurl,
+							data: {
+								action: 'tef_delete_field',
+								form: form.serialize(),
+							},
+							success: function(result){
+								if(result != 0){
+									$noty.close();
+									 
+									tr.fadeOut(500, function(){
+										$(this).remove();
+									});
+									
+								}else{
+									
+									 $noty.close();
+									
+									console.error(result);
+								}
+							},
+							error: function(){
+								console.error('ERROR!');
+							}
+						});
+
+				   }
+			   },
+			   {
+				   addClass: 'button button-danger', text: tef.translations.msg.cancel, onClick: function ($noty) {
+					   $noty.close();
+			       }
+			   },
+		   	],
+		   
+		});
+		
+		
+	});
+	
 	$('#tef-admin').on('click', 'a.unlock-field', tef_unlock_field);
 	
 	$('#tef-admin').on('click', '.add-new-field', tef_add_new_field);
-
+	
 	/**
 	 * 
 	 */

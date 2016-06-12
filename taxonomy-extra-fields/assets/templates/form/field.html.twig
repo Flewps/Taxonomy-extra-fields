@@ -45,7 +45,7 @@
 			<tr>
 				<th></th>
 				<td class="actions">
-					<button type="submit" class="button button-primary button-large"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ translation.save|default('Save') }}</button>
+					<button type="submit" name="save" class="button button-primary button-large" disabled="disabled"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ translation.save|default('Save') }}</button>
 					<button type="button" name="cancel" class="button">{{ translation.cancel|default('Cancel') }}</button>
 				</td>
 			</tr>
