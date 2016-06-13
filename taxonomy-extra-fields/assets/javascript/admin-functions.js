@@ -15,7 +15,23 @@ jQuery( document ).ready(function( $ ) {
     });
 	
 	$("table.admin_page_tef-manage-taxonomy tbody").sortable({
-		handle: ".sortable-icon"
+		handle: ".sortable-icon",
+		update: function(event, ui){
+			var i = 1, changes = false;
+			$('table.admin_page_tef-manage-taxonomy > tbody > tr').each(function(index, elem) {
+				var container = $(this),
+					input_field = container.find('input[name^=field]'),
+					form = container.find('form.field-form'),
+					input_ID = form.find('input[name=ID]'),
+					input_position = form.find('input[name=position]');
+				
+				input_field.val(i);
+				input_position.val( i++ );
+				
+				var positions = $('input[name^=field]').serialize();
+			});
+
+		}
 	}).disableSelection();
 	
 	

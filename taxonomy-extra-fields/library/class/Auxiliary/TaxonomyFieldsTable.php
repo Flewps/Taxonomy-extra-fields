@@ -168,7 +168,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 	function column_default( $item, $column_name ) {
 		switch( $column_name ) {
 			case 'position':
-				return '<span class="sortable-icon dashicons dashicons-menu"></span><input type="hidden" name="field['.$item['ID'].']" value="'.$item[ $column_name ].'" />';
+				return '<span class="sortable-icon dashicons dashicons-menu"></span><input type="hidden" class="position" name="field['.$item['ID'].']" value="'.$item[ $column_name ].'" />';
 			case 'type':
 				$types = tef_fields_types();
 				if( in_array($item['type'], array_keys( $types ) ))
