@@ -27,13 +27,57 @@ jQuery( document ).ready(function( $ ) {
 				
 				input_field.val(i);
 				input_position.val( i++ );
+
 				
-				var positions = $('input[name^=field]').serialize();
+				
+			});
+			
+			var form = $('form#fields-positions');
+			
+			jQuery.ajax({
+				method: 'POST',
+				url: ajaxurl,
+				data: {
+					action: 'tef_save_fields_positions',
+					form: form.serialize(),
+				},
+				success: function(result){
+					if(result != 0){
+						
+						console.log( result );
+						
+						var n = noty({
+							layout: 'topRight',
+							timeout: 1000,
+							text: tef.translations.msg.saved,
+							type: 'success',
+							closeWith: ['click','hover', 'backdrop'],
+							animation: {
+						        open: 'animated tada', // Animate.css class names
+						        close: 'animated hinge', // Animate.css class names
+						        easing: 'swing', // unavailable - no need
+						        speed: 500, // unavailable - no need  
+						    },					   
+						});
+						
+					}else
+						console.error( result );
+				},
+				error: function(){
+					console.error('ERROR!');
+				}
 			});
 
 		}
 	}).disableSelection();
 	
+	$('#tef-admin').on('change', 'form.field-form input, form.field-form select, form.field-form textarea', function(){
+		
+		var form = $(this).closest('form.field-form'),
+			submit_button = form.find('button[name=save]');
+		
+		submit_button.removeAttr('disabled');
+	});
 	
 	// LISTENERS
 	$('#tef-admin').on('submit', 'form.field-form', tef_save_field);

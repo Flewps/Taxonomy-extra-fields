@@ -130,7 +130,56 @@ function tef_delete_field(){
 }
 add_action( 'wp_ajax_tef_delete_field', 'tef_delete_field' );
 
+function tef_save_fields_positions(){
+	
+	if(isset($_POST['form'])){
+		global $wpdb;
+		$form = array();
+		
+		
+		parse_str( $_POST['form'], $form );
+		
+		if(!isset($form['field'])){
+			die(0);
+		}
+		
+		if(!isset($form['unique']) || !isset($form['nonce'])){
+			die(0);
+		}
+		
+		if(!wp_verify_nonce($form['nonce'], 'save_fields_positions_'.intval($form['unique']) )){
+			die(0);
+		}
 
+		if(is_array( $form['field'] ) && 0 < count( $form['field'] ) ) {
+			
+			$results = array('success' => array(), 'errors' => array());
+			
+			foreach( $form['field'] as $ID => $position ){
+				if($ID == 0) 
+					continue;
+				
+				//echo $wpdb->prepare('UPDATE SET position = %1$d FROM '.TEF_FIELD_TABLE_NAME.' WHERE ID = %2$d;', $position, $ID);
+					
+				$result = $wpdb->query( $wpdb->prepare('UPDATE '.TEF_FIELD_TABLE_NAME.' SET position = %1$d WHERE ID = %2$d;', $position, $ID) );
+				
+				if($result)
+					$results['success'][] = $ID;
+				else
+					$results['errors'][] = $ID;
+				
+			}
+		
+			die( json_encode( $results ) );
+		}
+		
+		
+	}
+	
+	die(0);
+	
+}
+add_action( 'wp_ajax_tef_save_fields_positions', 'tef_save_fields_positions' );
 
 function tef_get_row_template(){
 	

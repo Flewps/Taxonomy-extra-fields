@@ -33,8 +33,15 @@ class FieldList{
 		global $wpdb;
 		$types = tef_fields_types();
 		
-		$rows = $wpdb->get_results( $wpdb->prepare("SELECT * FROM ".TEF_FIELD_TABLE_NAME." WHERE taxonomy LIKE %s;", $this->taxonomy), ARRAY_A );
+		$args_default = array(
+			'orderby' => 'position',
+			'order' => 'ASC',
+		);
 		
+		$args = wp_parse_args($args, $args_default);
+		
+		$rows = $wpdb->get_results( $wpdb->prepare("SELECT * FROM ".TEF_FIELD_TABLE_NAME." AS tef WHERE tef.taxonomy LIKE %s ORDER BY ".$args['orderby']." ".$args['order']." ;", $this->taxonomy), ARRAY_A );
+
 		if(0 < count( $rows )):
 			foreach($rows as $row):
 				if(in_array($row['type'], array_keys($types)) && class_exists( $types[$row['type']]['object'] )){

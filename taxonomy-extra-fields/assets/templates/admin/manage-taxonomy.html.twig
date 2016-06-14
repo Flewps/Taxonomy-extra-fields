@@ -8,9 +8,16 @@
     	<form name="defaults" id="defaults">
     		<input type="hidden" name="position" value="2" />
     		<input type="hidden" name="taxonomy" value="{{ taxonomy.name }}" />
-    	</form>	
+    	</form>
+    	
     	<a href="{{ url_new }}" class="button button-primary add-new-field">{{ translations.addnew }}</a>
-    </div>
+   		
+   		<form name="fields-positions" id="fields-positions">
+   			<input type="hidden" name="unique" value="{{ unique }}" />
+   			<input type="hidden" name="nonce" value="{{ nonce }}" />
+   		</form>
+
+	</div>
     
     
     {{ table.display() }}
