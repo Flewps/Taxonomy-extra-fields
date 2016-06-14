@@ -15,9 +15,69 @@ jQuery( document ).ready(function( $ ) {
     });
 	
 	$("table.admin_page_tef-manage-taxonomy tbody").sortable({
-		handle: ".sortable-icon"
+		handle: ".sortable-icon",
+		update: function(event, ui){
+			var i = 1, changes = false;
+			$('table.admin_page_tef-manage-taxonomy > tbody > tr').each(function(index, elem) {
+				var container = $(this),
+					input_field = container.find('input[name^=field]'),
+					form = container.find('form.field-form'),
+					input_ID = form.find('input[name=ID]'),
+					input_position = form.find('input[name=position]');
+				
+				input_field.val(i);
+				input_position.val( i++ );
+
+				
+				
+			});
+			
+			var form = $('form#fields-positions');
+			
+			jQuery.ajax({
+				method: 'POST',
+				url: ajaxurl,
+				data: {
+					action: 'tef_save_fields_positions',
+					form: form.serialize(),
+				},
+				success: function(result){
+					if(result != 0){
+						
+						console.log( result );
+						
+						var n = noty({
+							layout: 'topRight',
+							timeout: 1000,
+							text: tef.translations.msg.saved,
+							type: 'success',
+							closeWith: ['click','hover', 'backdrop'],
+							animation: {
+						        open: 'animated tada', // Animate.css class names
+						        close: 'animated hinge', // Animate.css class names
+						        easing: 'swing', // unavailable - no need
+						        speed: 500, // unavailable - no need  
+						    },					   
+						});
+						
+					}else
+						console.error( result );
+				},
+				error: function(){
+					console.error('ERROR!');
+				}
+			});
+
+		}
 	}).disableSelection();
 	
+	$('#tef-admin').on('change', 'form.field-form input, form.field-form select, form.field-form textarea', function(){
+		
+		var form = $(this).closest('form.field-form'),
+			submit_button = form.find('button[name=save]');
+		
+		submit_button.removeAttr('disabled');
+	});
 	
 	// LISTENERS
 	$('#tef-admin').on('submit', 'form.field-form', tef_save_field);
