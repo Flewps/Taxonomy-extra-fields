@@ -4,6 +4,8 @@ namespace tef\Auxiliary;
 
 defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
+use \tef\Field\FieldList;
+
 if( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -62,7 +64,7 @@ class TaxonomiesListTable extends \WP_List_table{
 		$this->items[] = array(
 			'taxonomy' => __('All Taxonomies','tef'),
 			'slug' =>'all',
-			'fields'  => rand(0,10),
+			'fields'  => FieldList::count( "all" ),
 		);
 		
 		foreach(get_taxonomies(null, 'objects') as $taxonomy){
@@ -70,7 +72,7 @@ class TaxonomiesListTable extends \WP_List_table{
 				$this->items[] = array(
 					'taxonomy' => $taxonomy->label,
 					'slug' => $taxonomy->name,
-					'fields'  => rand(0,10),
+					'fields'  => FieldList::count( $taxonomy->name ),
 				);
 			}
 		}

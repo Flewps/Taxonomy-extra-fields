@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
 use \tef\Auxiliary\TaxonomyFieldsTable;
 use \tef\Auxiliary\TaxonomiesListTable;
+use \tef\Field\FieldList;
 /**
  *
  * @author GuilleGarcia
@@ -73,6 +74,7 @@ class TaxonomyController{
 			'url_new' => '?page=tef-new-field&taxonomy='.$taxonomy->name,
 			'unique' => $unique = rand(1000,9999),
 			'nonce' => wp_create_nonce('save_fields_positions_'.$unique),
+			'position' => FieldList::count( $taxonomy->name ) + 1,
  		);
 		
 		echo get_TEFUI()->render('admin/manage-taxonomy', $data);

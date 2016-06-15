@@ -74,4 +74,14 @@ class FieldList{
 		return $this->fields;
 	}
 	
+	
+	static function count( $taxonomy = 'all' ){
+		global $wpdb;
+		
+		$taxonomy = sanitize_text_field( $taxonomy ); 
+		
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM ".TEF_FIELD_TABLE_NAME." WHERE taxonomy LIKE %s", $taxonomy) );
+		
+	}
+	
 }

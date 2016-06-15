@@ -6,86 +6,84 @@ jQuery.noConflict();
 
 jQuery( document ).ready(function( $ ) {
 	
-	$('tr', 'table.admin_page_tef-manage-taxonomy').each(function () {
-        $(this).width( $(this).width() );
-    });
+	// OBJECTS
 	
-	$('td:not(.hidden), th:not(.hidden)', 'table.admin_page_tef-manage-taxonomy').each(function () {
-        $(this).width( $(this).width() );
-    });
-	
-	$("table.admin_page_tef-manage-taxonomy tbody").sortable({
+	$("table.tef_fields_table tbody").sortable({
 		handle: ".sortable-icon",
 		update: function(event, ui){
-			var i = 1, changes = false;
-			$('table.admin_page_tef-manage-taxonomy > tbody > tr').each(function(index, elem) {
-				var container = $(this),
-					input_field = container.find('input[name^=field]'),
-					form = container.find('form.field-form'),
-					input_ID = form.find('input[name=ID]'),
-					input_position = form.find('input[name=position]');
-				
-				input_field.val(i);
-				input_position.val( i++ );
-
-				
-				
-			});
-			
-			var form = $('form#fields-positions');
-			
-			jQuery.ajax({
-				method: 'POST',
-				url: ajaxurl,
-				data: {
-					action: 'tef_save_fields_positions',
-					form: form.serialize(),
-				},
-				success: function(result){
-					if(result != 0){
-						
-						console.log( result );
-						
-						var n = noty({
-							layout: 'topRight',
-							timeout: 1000,
-							text: tef.translations.msg.saved,
-							type: 'success',
-							closeWith: ['click','hover', 'backdrop'],
-							animation: {
-						        open: 'animated tada', // Animate.css class names
-						        close: 'animated hinge', // Animate.css class names
-						        easing: 'swing', // unavailable - no need
-						        speed: 500, // unavailable - no need  
-						    },					   
-						});
-						
-					}else
-						console.error( result );
-				},
-				error: function(){
-					console.error('ERROR!');
-				}
-			});
-
+			tef_actualize_and_save_field_positions();
 		}
 	}).disableSelection();
 	
-	$('#tef-admin').on('change', 'form.field-form input, form.field-form select, form.field-form textarea', function(){
-		
-		var form = $(this).closest('form.field-form'),
-			submit_button = form.find('button[name=save]');
-		
-		submit_button.removeAttr('disabled');
-	});
+	// ITERATORS
 	
-	// LISTENERS
+	$('tr', 'table.tef_fields_table').each(function () {
+        $(this).width( $(this).width() );
+    });
+	
+	$('td:not(.hidden), th:not(.hidden)', 'table.tef_fields_table').each(function () {
+        $(this).width( $(this).width() );
+    });
+	
+	// EVENTS
+
+	$('#tef-admin').on('change', 'form.field-form input, form.field-form select, form.field-form textarea', tef_enable_form);
+	
 	$('#tef-admin').on('submit', 'form.field-form', tef_save_field);
 	
 	$('#tef-admin').on('click', '.row-actions .edit a', tef_set_row_in_edition);
 	
-	$('#tef-admin').on('click', '.row-actions .delete a', function(event){
+	$('#tef-admin').on('click', '.row-actions .delete a', tef_delete_field);
+	
+	$('#tef-admin').on('click', 'a.unlock-field', tef_unlock_field);
+	
+	$('#tef-admin').on('click', '.add-new-field', tef_add_new_field);
+
+	$('#tef-admin').on('click', 'form.field-form button[name=cancel]', tef_restore_form_field);
+	
+	/**
+	 * 
+	 */
+	function tef_restore_form_field(){
 		
+		var form =  $(this).closest('form'),
+			container = form.closest('tr'),
+			label_col = container.find('td.label'),
+			json_value = form.find('input[name=object]').val(),
+			data = JSON.parse( json_value );
+
+		
+		if(0 != form.find('input[name=ID]').val()){
+			
+			tef_row_actualize(container, data);
+			container.removeClass('in-edition');
+			label_col.removeAttr('colspan');
+			
+			// Display or no the no-items row
+			tef_display_no_items_row();
+		
+		}else{
+			container.removeClass('in-edition').fadeOut(500, function(){
+				$(this).remove();
+				
+				// Actualize positions.
+				tef_actualize_fields_positions();
+				
+				// Display or no the no-items row
+				tef_display_no_items_row();
+			});
+			
+		}
+		
+		
+		
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_delete_field(event){
+			
 		event.preventDefault();
 		
 		var tr = $(this).closest('tr'),
@@ -116,13 +114,19 @@ jQuery( document ).ready(function( $ ) {
 								form: form.serialize(),
 							},
 							success: function(result){
+								
 								if(result != 0){
+									
 									$noty.close();
 									 
 									tr.fadeOut(500, function(){
 										$(this).remove();
+										
+										tef_actualize_and_save_field_positions();
+										
+										tef_display_no_items_row();
+										
 									});
-									
 								}else{
 									
 									 $noty.close();
@@ -147,27 +151,154 @@ jQuery( document ).ready(function( $ ) {
 		});
 		
 		
-	});
-	
-	$('#tef-admin').on('click', 'a.unlock-field', tef_unlock_field);
-	
-	$('#tef-admin').on('click', '.add-new-field', tef_add_new_field);
+	}
 	
 	/**
 	 * 
 	 */
-	$('#tef-admin').on('click', 'form.field-form button[name=cancel]', function(){
-		var form =  $(this).closest('form'),
-			container = form.closest('tr'),
-			label_col = container.find('td.label'),
-			json_value = form.find('input[name=object]').val(),
-			data = JSON.parse( json_value );
+	function tef_enable_form(){
+		var form = $(this).closest('form.field-form'),
+			submit_button = form.find('button[name=save]');
+		
+		submit_button.removeAttr('disabled');
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_actualize_and_save_field_positions(){
+		// Actualize positions
+		tef_actualize_fields_positions();
+		
+		// Save positions
+		tef_save_fields_positions();
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_actualize_fields_positions(){
+		
+		var i = 1;
+		$('#tef-admin table.tef_fields_table > tbody > tr:not(.no-items)').each(function(index, elem) {
+			
+			var container = $(elem),
+				input_field = container.find('input[name^=field]'),
+				form = container.find('form.field-form'),
+				input_ID = form.find('input[name=ID]'),
+				input_position = form.find('input[name=position]');
+			
+			input_field.val(i);
+			input_position.val( i++ );
 
-		tef_row_actualize(container, data);
-
-		container.removeClass('in-edition');
-		label_col.removeAttr('colspan');
-	});
+		});
+		
+		// Actualize prox field position
+		tef_actualize_default_field_position( i );
+		
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_display_no_items_row(){
+		
+		console.log( $('#tef-admin table.tef_fields_table > tbody > tr:not(.no-items)').length );
+		
+		if(0 == $('#tef-admin table.tef_fields_table > tbody > tr:not(.no-items)').length){			
+			if( $('#tef-admin table.tef_fields_table > tbody > tr.no-items').length )
+				$('#tef-admin table.tef_fields_table > tbody > tr.no-items').fadeIn(500);
+			else{
+				
+				jQuery.ajax({
+					method: 'POST',
+					url: ajaxurl,
+					data: {
+						action: 'tef_get_no_items_row'
+					},
+					success: function(result){
+						if(result != 0){
+							
+							console.log( result );
+							
+							row = jQuery.parseHTML( result );
+							
+							$(row).css({'display':'none'});
+							
+							$('#tef-admin table.tef_fields_table > tbody').append( row );
+							
+							$(row).fadeIn(500);
+							
+						}else
+							console.error( result );
+					},
+					error: function(error){
+						console.error(error);
+					}
+				});
+			}
+			
+		}else{
+			
+			if( $('#tef-admin table.tef_fields_table > tbody > tr.no-items').is(':visible') )
+				$('#tef-admin table.tef_fields_table > tbody > tr.no-items').fadeOut(500);
+			
+		}
+		
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_save_fields_positions(){
+		
+		var form = $('#tef-admin form#fields-positions');
+		
+		jQuery.ajax({
+			method: 'POST',
+			url: ajaxurl,
+			data: {
+				action: 'tef_save_fields_positions',
+				form: form.serialize(),
+			},
+			success: function(result){
+				if(result != 0){
+					
+					var n = noty({
+						layout: 'topRight',
+						timeout: 1000,
+						text: tef.translations.msg.saved,
+						type: 'success',
+						closeWith: ['click','hover', 'backdrop'],
+						animation: {
+					        open: 'animated tada', // Animate.css class names
+					        close: 'animated hinge', // Animate.css class names
+					        easing: 'swing', // unavailable - no need
+					        speed: 500, // unavailable - no need  
+					    },					   
+					});
+					
+				}else
+					console.error( result );
+			},
+			error: function(error){
+				console.error(error);
+			}
+		});
+		
+	}
+	
+	/**
+	 * 
+	 */
+	function tef_actualize_default_field_position( i ){
+		
+		i = parseInt( i );
+		
+		$('#tef-admin form#defaults input[name=position]').val( i );
+		
+		
+	}
 	
 	/**
 	 * 
@@ -339,16 +470,18 @@ jQuery( document ).ready(function( $ ) {
 				
 				if( result ){
 					var html = jQuery.parseHTML( result );
-					
-					//$(html).addClass('in-edition');
-				
-					$('table.admin_page_tef-manage-taxonomy tr.no-items').fadeOut(500);
-					
-					$('table.admin_page_tef-manage-taxonomy > tbody').delay(500).append( html );
+
+					$('table.tef_fields_table > tbody').append( html );
 					
 					$('.row-actions .edit a', html).click();
 					
 					$('input[name=label]',html).focus();
+					
+					// Ocult no items row
+					tef_display_no_items_row();
+					
+					// Actualize positions
+					tef_actualize_fields_positions();
 				}
 				
 			},

@@ -5,10 +5,7 @@
 {% block content %}
     
     <div>
-    	<form name="defaults" id="defaults">
-    		<input type="hidden" name="position" value="2" />
-    		<input type="hidden" name="taxonomy" value="{{ taxonomy.name }}" />
-    	</form>
+    	
     	
     	<a href="{{ url_new }}" class="button button-primary add-new-field">{{ translations.addnew }}</a>
    		
@@ -23,6 +20,12 @@
     {{ table.display() }}
 
 	<div>
+		
+		<form name="defaults" id="defaults">
+    		<input type="hidden" name="position" value="{{ position }}" />
+    		<input type="hidden" name="taxonomy" value="{{ taxonomy.name }}" />
+    	</form>
+	
 		<a href="{{ url_new }}" class="button button-primary add-new-field">{{ translations.addnew }}</a>
 	</div>
 
