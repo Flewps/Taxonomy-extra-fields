@@ -49,6 +49,16 @@ class TaxonomyFieldsTable extends \WP_List_table {
 	}
 	
 	/**
+	 * 
+	 */
+	protected function get_table_classes() {
+		
+		return array_merge(parent::get_table_classes(), array('tef_fields_table'));
+		
+	}
+	
+	
+	/**
 	 *
 	 */
 	function get_columns_hidden(){

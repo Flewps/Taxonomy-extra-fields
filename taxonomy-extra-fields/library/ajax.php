@@ -221,3 +221,13 @@ function tef_get_row_template(){
 	die(0);
 }
 add_action( 'wp_ajax_tef_get_row_template', 'tef_get_row_template' );
+
+function tef_get_no_items_row(){
+
+	$table = new TaxonomyFieldsTable();
+	$table->prepare_columns();
+
+	die( $table->display_rows_or_placeholder() );
+
+}
+add_action( 'wp_ajax_tef_get_no_items_row', 'tef_get_no_items_row' );
