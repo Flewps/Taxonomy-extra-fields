@@ -2,6 +2,7 @@
 namespace tef\UI;
 
 use \tef\UI\FieldController;
+use tef\Field\FieldList;
 
 /**
  * Create and manage User Interface
@@ -212,4 +213,125 @@ class UI{
 
 	}
 	
+	/**
+	 * 
+	 * @param unknown $taxonomy
+	 */
+	static function display_add_form_fields( $taxonomy ){
+		$fieldList = new FieldList( $taxonomy );
+		$fieldList->set_from_db();
+		
+		
+		
+	}
+	
+	/**
+	 * 
+	 * @param unknown $term
+	 */
+	static function display_edit_form_fields($term){
+	
+	}
+	
+	/**
+	 * Foreach all fields for an taxonomy and check if exists, validate and save fields values.
+	 */
+	static function save_form_fields($term_id, $tt_id){
+		
+		$term = get_term_by('id', $term_id);
+		
+		if(!$term)
+			return false;
+		
+		// Create FielList (For all)
+		$all_taxonomies_fields = new FieldList('all');
+		$all_taxonomies_fields->set_from_db();
+		
+		// Create FieldList for term taxonomy
+		$term_taxonomy_fields = new FieldList( $term->taxonomy );
+		$term_taxonomy_fields->set_from_db();
+		
+		$fields = array_merge($all_taxonomies_fields->get_fields(), $term_taxonomy_fields->get_fields() );
+		
+		// Foreach both FieldLists
+		foreach ($fields as $field){
+			
+			// Check if data has sent
+			if(isset( $_POST['term_meta'][$field->name])){
+				
+				// Check if data value is valid for this field
+				if($field->validate( $_POST['term_meta'][$field->name] )){
+					
+					// Save
+					$field->save_value($term->term_id, $_POST['term_meta'][$field->name]);
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	/**
+	 * Register add, edit and save actions for the taxonomies
+	 */
+	static function register_actions(){
+		
+		$taxonomies = tef_get_taxonomies();
+		
+		// Register actions to all displayed taxonomies
+		if(FieldList::count("all")){
+			
+			foreach( array_keys($taxonomies) as $taxonomy){
+			
+				if("all" == $taxonomy)
+					continue;
+
+				// Form Add new Term
+				add_action($taxonomy.'_add_form_fields', array(self, "display_add_form_fields"), 10, 2);
+				
+				// Form Edit Term
+				add_action($taxonomy.'_edit_form_fields', array(self, "display_edit_form_fields"), 10, 1);
+	
+				// On edit Term
+				add_action( 'edited_'.$taxonomy, array(self,"save_form_fields"), 10, 2 );
+				
+				// On create Term
+				add_action( 'create_'.$taxonomy, array(self,"save_form_fields"), 10, 2 );
+						
+			}
+			
+		}
+		
+		// Display only for taxonomies that have customs fields
+		else{
+			
+			foreach( array_keys($taxonomies) as $taxonomy){
+				
+				if("all" == $taxonomy)
+					continue;
+				
+				if(FieldList::count($taxonomy)){
+			
+					// Form Add new Term
+					add_action($taxonomy.'_add_form_fields', array(self, "display_add_form_fields"), 10, 2);
+					
+					// Form Edit Term
+					add_action($taxonomy.'_edit_form_fields', array(self, "display_add_form_fields"), 10, 2);
+						
+					// On edit Term
+					add_action( 'edit_'.$taxonomy, array(self,"save_form_fields"), 10, 2 );
+					
+					// On create Term
+					add_action( 'create_'.$taxonomy, array(self,"save_form_fields"), 10, 2 );
+					
+				}
+					
+			}
+			
+		}
+
+
+	}
 }

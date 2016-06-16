@@ -255,6 +255,17 @@ abstract class Field{
 	}
 	
 	/**
+	 * 
+	 * @param unknown $term_id
+	 * @param unknown $value
+	 */
+	function save_value($term_id, $value){
+		
+		update_term_meta( $term_id, $this->name, sanitize_text_field( $value ) );
+		
+	}
+	
+	/**
 	 * Delete the field from DB
 	 */
 	function delete(){

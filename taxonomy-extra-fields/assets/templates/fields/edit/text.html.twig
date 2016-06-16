@@ -4,8 +4,8 @@
 	</th>  
 	<td>  
 		<input type="text" name="{{ name }}" class="{{ class }}" value="{{ value }}" />
-		{% if foo not is empty %}
-			<span class="description">{{ description }}</span>
+		{% if description not is empty %}
+			<p class="description">{{ description }}</p>
 		{% endif; %}
 	</td>  
 </tr>

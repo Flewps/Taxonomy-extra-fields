@@ -1,0 +1,7 @@
+<div class="form-field">  
+	<label for="{{ name }}">{{ label }}</label> 
+	<input type="text" name="{{ name }}" class="{{ class }}" value="{{ value }}" />
+	{% if description not is empty %}
+		<p class="description">{{ description }}</p>
+	{% endif; %}
+</div>

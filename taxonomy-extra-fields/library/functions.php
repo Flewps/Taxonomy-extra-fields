@@ -4,6 +4,9 @@ defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
 require_once 'field_types.php';
 require_once 'ajax.php';
+require_once 'class/Field/FieldsList.php';
+
+use \tef\Field\FieldList;
 
 /**
  * 
@@ -50,3 +53,24 @@ function tef_js_translations(){
 	echo "');</script>";
 }
 add_action( 'admin_head', 'tef_js_translations' );
+
+
+/**
+ * Return an array of all Categories (that can be displayed)
+ * @return array[category-name] = category-label
+ */
+function tef_get_taxonomies(){
+	
+	$taxonomies = array();
+	
+	$taxonomies['all'] = __('All','tef');
+	
+	foreach(get_taxonomies(null, 'objects') as $taxonomy){
+		if($taxonomy->show_ui){
+			$taxonomies[$taxonomy->name] = $taxonomy->label;
+		}
+	}
+	
+	return $taxonomies;
+	
+}
