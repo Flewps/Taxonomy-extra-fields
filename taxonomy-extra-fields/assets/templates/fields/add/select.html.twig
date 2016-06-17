@@ -1,0 +1,9 @@
+<div class="form-field">
+	<label for="{{ name }}">{{ label }}</label>
+	<select name="{{ name }}" class="{{ class }}" >
+		<option>{{ placeholder }}</option>
+	</select>
+	{% if description not is empty %}
+		<p class="description">{{ description }}</p>
+	{% endif; %}
+</div>
