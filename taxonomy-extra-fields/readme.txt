@@ -8,11 +8,17 @@ Stable tag: 4.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Add your own custom fields to all wordpress taxonomy easily and efficiently directly from admin UI.
+Add your own custom fields to all wordpress taxonomies, easily and efficiently, directly from admin UI.
 
 == Description ==
 
-Taxonomy Extra Fields is a plugin for create and manage your own custom fields for all taxonomies (natives or created) of Wordpress directly from admin UI.
+"Taxonomy Extra Fields" is a plugin for create and manage your own custom fields for all public taxonomies  of Wordpress (natives or created by the owner), directly from admin interface.
+
+Thanks to:
+- Twig <http://twig.sensiolabs.org/>
+- jQuery (Noty) v2 <http://ned.im/noty/>
+- Daniel Eden for 'animate-css' <https://daneden.github.io/animate.css/>
+- Font Awesome <http://fontawesome.io/>
 
 == Installation ==
 1. Download clicking directly on the Download button.
@@ -35,7 +41,10 @@ Answer
 * Begins development
 
 = 0.5.00 = 
-* Begins development
+* Create beta version
 
 == Coming Soon ==
-* Example milestone
+* Add new field types: radio, checkbox, geoposition...
+* Add new fields options: multiple, placeholder, default value...
+* Create/manage/delete new taxonomy
+* Support for non-ajax functions.
