@@ -17,7 +17,7 @@ Add your own custom fields to all wordpress taxonomies, easily and efficiently, 
 Thanks to:
 - Twig <http://twig.sensiolabs.org/>
 - jQuery (Noty) v2 <http://ned.im/noty/>
-- Daniel Eden for 'animate-css' <https://daneden.github.io/animate.css/>
+- Daniel Eden for 'animate.css' <https://daneden.github.io/animate.css/>
 - Font Awesome <http://fontawesome.io/>
 
 == Installation ==
