@@ -1,0 +1,13 @@
+<tr class="form-field">  
+	<th scope="row" valign="top">  
+		<label for="term_meta[{{ name }}]">{{ label }}</label>
+	</th>  
+	<td>  
+		<select name="term_meta[{{ name }}]" class="{{ class }}" >
+			<option>{{ placeholder }}</option>
+		</select>
+		{% if not description is empty %}
+			<p class="description">{{ description }}</p>
+		{% endif %}
+	</td>  
+</tr>

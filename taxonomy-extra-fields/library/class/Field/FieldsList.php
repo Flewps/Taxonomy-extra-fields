@@ -16,13 +16,19 @@ class FieldList{
 	
 	/**
 	 * 
-	 * @param string $taxonomy
+	 * @param string|array $taxonomy
 	 */
 	function __construct($taxonomy = 'all'){
 		
 		if(is_string($taxonomy))
 			$this->taxonomy = sanitize_title( $taxonomy );
+		elseif(is_array($taxonomy))
+			$this->taxonomy = array_map("sanitize_title", $taxonomy);
 		
+	}
+	
+	function count_fields(){
+		return count( $this->fields );
 	}
 	
 	/**
@@ -34,17 +40,38 @@ class FieldList{
 		$types = tef_fields_types();
 		
 		$args_default = array(
-			'orderby' => 'position',
+			'orderby' => 'taxonomy, position',
 			'order' => 'ASC',
 		);
 		
 		$args = wp_parse_args($args, $args_default);
+	
 		
-		$rows = $wpdb->get_results( $wpdb->prepare("SELECT * FROM ".TEF_FIELD_TABLE_NAME." AS tef WHERE tef.taxonomy LIKE %s ORDER BY ".$args['orderby']." ".$args['order']." ;", $this->taxonomy), ARRAY_A );
+		// WHERE
+		$where = "";
+		
+		// Taxonomy 
+		if(is_string($this->taxonomy)){
+			$taxonomy = array( $this->taxonomy );
+			$where .= ' taxonomy LIKE %s ';
+		}
+		elseif(is_array($this->taxonomy)){
+			$taxonomy = $this->taxonomy;
+			$where .= ' taxonomy IN("'. implode('","', array_fill(0, count( $this->taxonomy ), '%s') ).'") ';
+		}	
+		else{
+			$taxonomy = array( intval( $this->taxonomy ));
+			$where .= ' 1 = %s ';
+		}
 
+		$sql = 'SELECT *  FROM '.TEF_FIELD_TABLE_NAME.' WHERE '.$where.' ORDER BY '.$args['orderby'].' '.$args['order'];
+		$query = call_user_func_array(array($wpdb, 'prepare'), array_merge(array($sql), $taxonomy));
+		
+		$rows = $wpdb->get_results($query, ARRAY_A );
+		
 		if(0 < count( $rows )):
 			foreach($rows as $row):
-				if(in_array($row['type'], array_keys($types)) && class_exists( $types[$row['type']]['object'] )){
+				if(in_array($row['type'], array_keys($types)) && class_exists( $types[ $row['type'] ]['object'] )){
 			
 					$field = new $types[$row['type']]['object']($row['ID']);
 					$field->set_name( $row['name'] );
