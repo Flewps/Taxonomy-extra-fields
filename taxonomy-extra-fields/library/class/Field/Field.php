@@ -23,6 +23,7 @@ abstract class Field{
 	protected $description = '';
 	
 	protected $options = array(
+		'default' => null,
 		'pattern' => null, // Regular expresion to validate
 		'length' => array(
 			'min' => 0, // 0: none
@@ -51,14 +52,14 @@ abstract class Field{
 	 * 
 	 */
 	function get_ID(){
-		return $this->ID;
+		return intval( $this->ID );
 	}
 
 	/**
 	 *
 	 */
 	function get_position(){
-		return $this->position;
+		return intval( $this->position );
 	}
 
 	/**
@@ -73,7 +74,7 @@ abstract class Field{
 	 *
 	 */
 	function get_taxonomy(){
-		return $this->taxonomy;
+		return esc_attr( $this->taxonomy );
 	}
 
 	/**
@@ -96,7 +97,7 @@ abstract class Field{
 	 *
 	 */
 	function get_name(){
-		return $this->name;
+		return esc_attr( $this->name );
 	}
 
 	/**
@@ -111,7 +112,7 @@ abstract class Field{
 	 *
 	 */
 	function get_label(){
-		return $this->label;
+		return ucwords( esc_attr( $this->label ) );
 	}
 
 	/**
@@ -126,7 +127,7 @@ abstract class Field{
 	 *
 	 */
 	function get_description(){
-		return $this->description;
+		return esc_html( $this->description );
 	}
 
 	/**
@@ -165,7 +166,7 @@ abstract class Field{
 	/**
 	 *
 	 */
-	function si_required(){
+	function is_required(){
 		
 		if($this->required)
 			return true;
@@ -191,7 +192,7 @@ abstract class Field{
 	 *
 	 */
 	function get_type(){
-		return $this->type;
+		return esc_attr( strtolower( $this->type ) );
 	}
 
 	/**
@@ -200,6 +201,13 @@ abstract class Field{
 	function set_type($type){
 		if(is_string($type) && in_array($type, array_keys( tef_fields_types() )))
 			$this->type = $type;
+	}
+	
+	function get_default(){
+		if(isset($this->options['default']))
+			return esc_attr( $this->options['default'] );
+		
+		return null;
 	}
 		
 	/**
@@ -254,6 +262,10 @@ abstract class Field{
 		
 	}
 	
+	function validate_value( $value ){
+		return true;
+	}
+	
 	/**
 	 * 
 	 * @param unknown $term_id
@@ -262,6 +274,12 @@ abstract class Field{
 	function save_value($term_id, $value){
 		
 		update_term_meta( $term_id, $this->name, sanitize_text_field( $value ) );
+		
+	}
+	
+	function get_saved_value( $term_id ){
+		
+		return esc_attr( get_term_meta($term_id, $this->get_name(), true) );
 		
 	}
 	

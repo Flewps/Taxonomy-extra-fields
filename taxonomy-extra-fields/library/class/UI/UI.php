@@ -219,15 +219,23 @@ class UI{
 	 * @param unknown $taxonomy
 	 */
 	static function display_add_form_fields( $taxonomy ){
+		
 		$fieldList = new FieldList( array("all", $taxonomy) );
 		$fieldList->set_from_db();
 
 		if($fieldList->count_fields()){
 			
 			foreach($fieldList->get_fields() as $field){
+				$data = array(
+					'name' => $field->get_name(),
+					'label' => $field->get_label(),
+					'value' => $field->get_default(),
+					'description' => $field->get_description(),
+					'options' => $field->get_options(),
+				);
 				
 				// Render $Field
-				
+				echo get_TEFUI()->render('/fields/add/'.strtolower($field->get_type()), $data);
 			}
 			
 		}
@@ -240,6 +248,28 @@ class UI{
 	 */
 	static function display_edit_form_fields($term){
 	
+		$taxonomy = $term->taxonomy;
+		
+		$fieldList = new FieldList( array("all", $taxonomy) );
+		$fieldList->set_from_db();
+		
+		if($fieldList->count_fields()){
+				
+			foreach($fieldList->get_fields() as $field){
+				$data = array(
+					'name' => $field->get_name(),
+					'label' => $field->get_label(),
+					'value' => $field->get_saved_value( $term->term_id),
+					'description' => $field->get_description(),
+					'options' => $field->get_options(),
+				);
+		
+				// Render $Field
+				echo get_TEFUI()->render('/fields/edit/'.strtolower($field->get_type()), $data);
+			}
+				
+		}
+		
 	}
 	
 	/**
@@ -247,32 +277,35 @@ class UI{
 	 */
 	static function save_form_fields($term_id, $tt_id){
 		
-		$term = get_term_by('id', $term_id);
-		
+		$term = get_term($term_id);
+
 		if(!$term)
 			return false;
 		
 		// Create FielList (For all)
 		$FieldList = new FieldList( array('all', $term->taxonomy) );
+		$FieldList->set_from_db();
 		
 		// Foreach both FieldLists
 		foreach ($FieldList->get_fields() as $field){
 			
+			echo $field->get_name(); 
+			
 			// Check if data has sent
-			if(isset( $_POST['term_meta'][$field->name])){
+			if(isset( $_POST['term_meta'][$field->get_name()]) ){
 				
 				// Check if data value is valid for this field
-				if($field->validate( $_POST['term_meta'][$field->name] )){
+				if($field->validate_value( $_POST['term_meta'][$field->get_name()] )){
 					
 					// Save
-					$field->save_value($term->term_id, $_POST['term_meta'][$field->name]);
-					
+					$field->save_value($term->term_id, $_POST['term_meta'][$field->get_name()]);
+				
 				}
 				
 			}
 			
 		}
-		
+
 	}
 	
 	/**

@@ -1,11 +1,11 @@
 <tr class="form-field">  
 	<th scope="row" valign="top">  
-		<label for="{{ name }}">{{ label }}</label>
+		<label for="term_meta[{{ name }}]">{{ label }}</label>
 	</th>  
 	<td>  
-		<input type="number" name="{{ name }}" class="{{ class }}" value="{{ value }}" />
-		{% if description not is empty %}
+		<input type="number" name="term_meta[{{ name }}]" class="{{ class }}" value="{{ value }}" />
+		{% if not description is empty %}
 			<p class="description">{{ description }}</p>
-		{% endif; %}
+		{% endif %}
 	</td>  
 </tr>

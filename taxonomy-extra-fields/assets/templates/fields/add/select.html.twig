@@ -1,9 +1,9 @@
 <div class="form-field">
-	<label for="{{ name }}">{{ label }}</label>
-	<select name="{{ name }}" class="{{ class }}" >
+	<label for="term_meta[{{ name }}]">{{ label }}</label>
+	<select name="term_meta[{{ name }}]" class="{{ class }}" >
 		<option>{{ placeholder }}</option>
 	</select>
-	{% if description not is empty %}
+	{% if not description is empty %}
 		<p class="description">{{ description }}</p>
-	{% endif; %}
+	{% endif %}
 </div>
