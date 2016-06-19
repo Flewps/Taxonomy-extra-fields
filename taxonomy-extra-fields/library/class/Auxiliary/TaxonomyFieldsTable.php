@@ -163,6 +163,9 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					'save' => __('Save','tef'),
 					'cancel' => __('Cancel','tef'),
 					'unlock' => __('Unlock','tef'),
+					'default' => __('Default value','tef'),
+					'placeholder' => __('Placeholder','tef'),
+					'options' => __('Options','tef'),
 				),
 				
 			)) 

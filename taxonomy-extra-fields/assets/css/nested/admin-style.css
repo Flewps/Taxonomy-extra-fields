@@ -11,6 +11,9 @@ table, tr, td, th, tbody, thead {
 .sortable-icon {
   cursor: row-resize; }
 
+.no-display {
+  display: none !important; }
+
 .admin_page_tef-manage-taxonomy {
   width: 100%;
   min-width: 100%; }
@@ -96,6 +99,38 @@ table, tr, td, th, tbody, thead {
           opacity: 1; }
       .tef-form tr td textarea {
         min-height: 200px; }
+      .tef-form tr td.options_list .options {
+        width: 100%;
+        float: left;
+        margin: 10px 0; }
+      .tef-form tr td.options_list hr {
+        clear: both; }
+      .tef-form tr td.options_list .option {
+        width: 100%;
+        width: calc(100% - 30px);
+        position: relative;
+        float: right; }
+        .tef-form tr td.options_list .option:before {
+          width: 25px;
+          height: 25px;
+          left: -30px;
+          content: '';
+          margin: 2px;
+          font-family: dashicons;
+          font-size: 20px;
+          text-align: center;
+          line-height: 25px;
+          content: "\f333";
+          position: absolute;
+          transition: 0.2s all;
+          cursor: row-resize; }
+          .tef-form tr td.options_list .option:before:hover {
+            background: #F00; }
+        .tef-form tr td.options_list .option input {
+          width: 49%;
+          width: calc(50% - 4px); }
+        .tef-form tr td.options_list .option .key.no-display + .value {
+          width: 100%; }
       .tef-form tr td.actions {
         text-align: right; }
         .tef-form tr td.actions button i {

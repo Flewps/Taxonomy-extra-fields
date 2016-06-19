@@ -42,6 +42,58 @@
 				<th><label for="required">{{ translation.required|default('Required') }}</label></th>
 				<td><input type="checkbox" name="required" {% if item.required|default(0) %} checked="checked" {% endif %}></td>
 			</tr>
+			
+			
+			<tr class="{% if item.type not in ["select","radio","checkbox"] %}no-display{% endif %}" data-for="select radio checkbox">
+				<th><label for="option[options]">{{ translation.options|default('Options') }}</label></th>
+				<td class="options_list">
+					<div class="options">
+						<div class="option">
+							<input type="text" name="option[options][key][]" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key no-display">
+							<input type="text" name="option[options][value][]" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+						</div>
+						<div class="option">
+							<input type="text" name="option[options][key][]" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key no-display">
+							<input type="text" name="option[options][value][]" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+						</div>
+						<div class="option">
+							<input type="text" name="option[options][key][]" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key no-display">
+							<input type="text" name="option[options][value][]" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+						</div>
+						<div class="option">
+							<input type="text" name="option[options][key][]" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key no-display">
+							<input type="text" name="option[options][value][]" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+						</div>
+						<div class="option">
+							<input type="text" name="option[options][key][]" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key no-display">
+							<input type="text" name="option[options][value][]" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+						</div>
+					</div>
+					<hr>
+					<div>
+						<label><input type="checkbox" name="split_options" {% if item.options.split|default(0) %} checked="checked" {% endif %}> {{ translation.split|default('Split Key/Value') }}</label>
+					</div>
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<th><label for="required">{{ translation.placeholder|default('Placeholder') }}</label></th>
+				<td>
+					<div>
+						<input type="text" name="option[placeholder]">
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<th><label for="required">{{ translation.default|default('Defaul value') }}</label></th>
+				<td>
+					<input type="text" name="option[default]">
+					<p class="description">{{ translation.empty_for_none|default('Empty for no value') }}</p>
+				</td>
+			</tr>
+			
 			<tr>
 				<th></th>
 				<td class="actions">
