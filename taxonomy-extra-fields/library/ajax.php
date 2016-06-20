@@ -9,7 +9,7 @@ function tef_save_field(){
 	$form = array();
 	
 	if(isset($_POST['form'])){
-	
+
 		parse_str( $_POST['form'], $form );
 
 		if(!isset($form['unique']) || !isset($form['nonce'])){
@@ -62,10 +62,6 @@ function tef_save_field(){
 		}else{
 			$description = "";
 		}
-		
-		// ID
-		$options = array();
-		
 		// REQUIRED
 		if(isset($form['required'])){
 			$required = true;
@@ -78,6 +74,13 @@ function tef_save_field(){
 			$type = sanitize_title( $form['type'] );
 		}else{
 			die(0);
+		}
+		
+		// TYPE
+		if(isset($form['options'])){
+			$options = $form['options'];
+		}else{
+			$options = array();
 		}
 		
 		// EJECUTE ACTION

@@ -164,29 +164,8 @@ table, tr, td, th, tbody, thead {
 
 .tef-form tr td.options_list .option {
   width: 100%;
-  width: calc(100% - 30px);
   position: relative;
   float: right;
-}
-
-.tef-form tr td.options_list .option:before {
-  width: 25px;
-  height: 25px;
-  left: -30px;
-  content: '';
-  margin: 2px;
-  font-family: dashicons;
-  font-size: 20px;
-  text-align: center;
-  line-height: 25px;
-  content: "\f333";
-  position: absolute;
-  transition: 0.2s all;
-  cursor: row-resize;
-}
-
-.tef-form tr td.options_list .option:before:hover {
-  background: #F00;
 }
 
 .tef-form tr td.options_list .option input {

@@ -14,7 +14,7 @@ class SelectField extends Field{
 	
 	protected $options = array(
 		'multiple' => false,
-		'values' => array(),
+		'options' => array(),
 	);
 	
 	/**
@@ -25,6 +25,7 @@ class SelectField extends Field{
 		parent::__construct($ID);
 		
 	}
+
 	
 	/**
 	 * Checks whether the value corresponds to the specifications

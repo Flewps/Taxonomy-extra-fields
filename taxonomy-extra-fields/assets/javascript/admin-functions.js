@@ -48,8 +48,28 @@ jQuery( document ).ready(function( $ ) {
 
 	$('#tef-admin').on('click', 'form.field-form button[name=cancel]', tef_restore_form_field);
 	
+	$('#tef-admin').on('change', 'form.field-form select[name=type]', function(){
+		var type = $(this).val();
+		
+		$(this).closest('form.field-form').find('table.tef-form tbody tr').each(function(index, elem){
+				 		
+			if( typeof $(this).data('for') != "undefined" ){
+				var types = $(this).data('for').split(" ");
+
+				if(jQuery.inArray( type, types ) != -1)
+					$(this).removeClass('no-display');
+				else
+					$(this).addClass('no-display');
+				
+			}
+			
+		});
+		
+		
+	});
 	
-	$('#tef-admin').on('click', 'input[name=split_options]', function(){
+	
+	$('#tef-admin').on('click', 'input.split_options', function(){
 		var form = $(this).closest('form.field-form');
 		
 		if($(this).is(':checked')){
@@ -413,6 +433,10 @@ jQuery( document ).ready(function( $ ) {
 				form: form.serialize(),
 			},
 			success: function(result){
+				
+				console.log(result);
+				return;
+				
 				if(result != 0){
 					tef_row_actualize(container, JSON.parse(result) );
 					container.removeClass('in-edition');
