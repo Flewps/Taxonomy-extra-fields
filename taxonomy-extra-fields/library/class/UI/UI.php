@@ -38,9 +38,11 @@ class UI{
 	 * Register all admin scripts (CSS and JavaScript)
 	 */
 	function register_admin_scripts(){
+
 		$screens = array(
 			'toplevel_page_taxonomy-extra-fields',
 			'admin_page_tef-manage-taxonomy',
+			'taxonomy-extra-fields_page_taxonomy-extra-fields-credits'
 		);
 		
 		if(in_array( get_current_screen()->id, $screens)){	
@@ -182,6 +184,57 @@ class UI{
 	}
 	
 	function credits_view(){
+		
+		$data = array(
+			'about_title' => __('About this plugin','tef'),
+			'about_text_one' => sprintf(
+				__('This plugin is created by <a href="%1$s" title="%2$s">%3$s</a> <a href="%4$s" title="%5$s">%6$s</a>. Actually, the plugin is in Beta version, it\'s posible that errors arising, you can get help writing in <a href="%7$s">%8$s</a>.','tef'),
+				'http://guillermogarcia.info',
+				__('Personal website','tef'),
+				'Guillermo Garcia',
+				'https://twitter.com/FlewPs',
+				__('Twitter profile @Flewps','tef'),
+				'@Flewps',
+				'https://wordpress.org/support/plugin/taxonomy-extra-fields',
+				__('plugin support','tef')
+			),
+			'about_text_two' => sprintf(
+				__('If you\'re interested in extends the functionality of this plugin, this is the <a href="%1$s" title="%2$s">Github repository</a>. All contributios are welcome.','tef'),
+				'https://github.com/Flewps/taxonomy-extra-fields',
+				__('Open Github URL')
+			),
+			'about_text_three' => sprintf(
+				__('You can check the next milestones <a href="%s">here</a>.','tef'),
+				'https://wordpress.org/plugins/taxonomy-extra-fields/milestones/'
+			),
+			'about_text_four' => __('Thank you for use this plugin.','tef'),
+			
+			'vendors_title' => __('Recognition to thirds','tef'),
+			'vendors' => array(
+				array(
+					'url' => 'http://twig.sensiolabs.org/',
+					'title' => __('Twig: The flexible, fast, and secure template engine for PHP','tef'),
+					'img' => TEF_URL.'/assets/images/TWIG.png'
+				),				
+				array(
+					'url' => 'http://ned.im/noty/',
+					'title' => __('(Noty)2: jquery notification plugin','tef'),
+					'img' => TEF_URL.'/assets/images/jQueryNoty.png'
+				),
+				array(
+					'url' => 'https://daneden.github.io/animate.css/',
+					'title' => __('Animate.CSS: Just-add-water CSS animations','tef'),
+					'img' => TEF_URL.'/assets/images/AnimateCSS.png'
+				),
+				array(
+					'url' => 'http://fontawesome.io/',
+					'title' => __('Font Awesome: The iconic font and CSS toolkit','tef'),
+					'img' => TEF_URL.'/assets/images/FontAwesome.png'
+				),
+			)
+		);
+		
+		echo $this->render('credits', $data);
 		
 	}
 	
