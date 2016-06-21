@@ -434,9 +434,6 @@ jQuery( document ).ready(function( $ ) {
 			},
 			success: function(result){
 				
-				console.log(result);
-				return;
-				
 				if(result != 0){
 					tef_row_actualize(container, JSON.parse(result) );
 					container.removeClass('in-edition');
