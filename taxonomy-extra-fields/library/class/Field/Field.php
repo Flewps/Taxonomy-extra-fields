@@ -29,6 +29,9 @@ abstract class Field{
 			'min' => 0, // 0: none
 			'max' => 0, // 0: none
 		),
+		'options' => array(),
+		'split' => false,
+		'placeholder' => "",
 		'multiple' => false, // false: unique value | true: multiple values
 	);
 	
@@ -146,14 +149,90 @@ abstract class Field{
 	}
 
 	/**
-	 *
+	 * 
+	 * @param unknown $options
+	 * @param string $split
+	 * @return NULL[]|unknown[]
 	 */
-	function set_options($options){
+	function parse_options_list($options,$split=false){
 		
-		if(is_array($options)){
-			$this->options = wp_parse_args($options, $this->options );
+		$options = (array) $options;
+		$optionList = array();
+		
+		// Array key=>value
+		if($split && isset($options['keys']) && isset($options['values'])){
+				
+			// num of keys must be equals that num of values
+			if(count($options['keys']) == count($options['values'])){
+				for($i=0,$e=0;$i<=count($options['keys']); $i++){
+						
+					if(!empty($options['values'][$i])){
+		
+						if(!empty($options['keys'][$i])){
+							$optionList[ sanitize_title( $options['keys'][$i] ) ] = sanitize_text_field( $options['values'][$i] );
+						}else{
+							$optionList[$e++] = $options['values'][$i];
+						}
+		
+					}
+						
+				}
+			}
+				
+		}
+		// Array numeric (key will be equal that value)
+		else{
+		
+			if(isset($options['values']) && is_array($options['values'])){
+				foreach($options['values'] as $option){
+					if(!empty($option))
+						$optionList[] = sanitize_text_field( $option );
+				}
+			}
+			
+			else if(is_array($options)){
+				foreach($options as $option){
+					if(!empty($option) && !is_array($option))
+						$optionList[] = sanitize_text_field( $option );
+				}
+				
+			}
+				
 		}
 		
+		return $optionList;
+	}
+	
+	/**
+	 *
+	 */
+	function set_options($options, $parsed=false){
+
+		$options = (array) $options;
+
+		// Set split option
+		if(isset($options['split'])){
+			if($options['split'])
+				$options['split'] = true;
+			else 
+				$options['split'] = false;
+		}else{
+			$options['split'] = false;
+		}
+		
+		// Set options list
+		if(isset($options['options']))
+			$options['options'] = $this->parse_options_list( $options['options'], $options['split'] );
+		else 
+			$options['options'] = array();
+		
+		// Set default value
+		if(isset($options['default']))
+			$options['default'] = sanitize_text_field( $options['default'] );
+		
+			
+		$this->options = wp_parse_args($options, $this->options );
+
 	}
 
 	/**
@@ -209,6 +288,8 @@ abstract class Field{
 		
 		return null;
 	}
+	
+	
 		
 	/**
 	 * Save the current field

@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Taxonomy Extra Fields
+Plugin Name: Taxonomy Extra Fields (BETA)
 Plugin URI: http://tef.guillermogarcia.info
-Description: Taxonomy Extra Fields is a plugin for create and manage your own custom fields for all taxonomies (natives or created) of Wordpress.
-Version: 0.5.00
+Description: "Taxonomy Extra Fields" is a plugin for create and manage your own custom fields for all public taxonomies  of Wordpress (natives or created by the owner), directly from admin interface.
+Version: 0.6.00
 Author: Guillermo Garcia (@Flewps)
 Author URI: http://guillermogarcia.info
 Text Domain: tef
@@ -33,6 +33,7 @@ global $wpdb;
  * Configuration
  */
 define('TEF_DIR', plugin_dir_path( __FILE__ ));
+define('TEF_BASENAME', plugin_basename( dirname( __FILE__ ) ));
 define('TEF_URL', plugins_url(null, __FILE__));
 define('TEF_FIELD_TABLE_NAME', $wpdb->prefix."tef_fields");
 

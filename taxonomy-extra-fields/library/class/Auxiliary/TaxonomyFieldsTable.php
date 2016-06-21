@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
 
 use tef\Field\FieldList;
 use tef\Field\TextField;
+use tef\Field\NoTypeField;
 
 if( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -113,6 +114,7 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					'description' => $field->get_description(),
 					'required' => $field->get_required(),
 					'json' => $field->to_JSON(),
+					'options' => $field->get_options(),
 				);
 			endforeach;
 		endif;
@@ -163,6 +165,10 @@ class TaxonomyFieldsTable extends \WP_List_table {
 					'save' => __('Save','tef'),
 					'cancel' => __('Cancel','tef'),
 					'unlock' => __('Unlock','tef'),
+					'default' => __('Default value','tef'),
+					'placeholder' => __('Placeholder','tef'),
+					'options' => __('Options list','tef'),
+					'split' => __('Split Key/Value','tef'),
 				),
 				
 			)) 

@@ -30,6 +30,14 @@ function tef_fields_types($field=null){
 			'name' => __('Selection','tef'),
 			'object' => '\tef\Field\SelectField',
 		),
+		'radio' => array(
+			'name' => __('Radio','tef'),
+			'object' => '\tef\Field\RadioField',
+		),
+		'checkbox' => array(
+			'name' => __('Checkbox','tef'),
+			'object' => '\tef\Field\CheckboxField',
+		),
 	);
 
 	// Add your own Field Type on array (key: field identificator, value: class of instance)
@@ -51,27 +59,4 @@ function tef_fields_types($field=null){
 	}
 		
 	return $types;
-}
-
-
-function tef_field_template($type){
-
-	switch ($type){
-		case 'text':
-			return "text.html.twig";
-		case 'longtext':
-			return "longtext.html.twig";
-		case 'number':
-			return "number.html.twig";
-		case 'image':
-			return "image.html.twig";
-		case 'file':
-			return "file.html.twig";
-		case 'select':
-			return "select.html.twig";
-		default:
-			return "text.html.twig";
-	}
-	
-	
 }

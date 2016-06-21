@@ -42,6 +42,50 @@
 				<th><label for="required">{{ translation.required|default('Required') }}</label></th>
 				<td><input type="checkbox" name="required" {% if item.required|default(0) %} checked="checked" {% endif %}></td>
 			</tr>
+			
+			
+			<tr class="{% if item.type not in ["select","radio","checkbox"] %}no-display{% endif %}" data-for="select radio checkbox">
+				<th><label for="option[options]">{{ translation.options|default('Options list') }}</label></th>
+				<td class="options_list">
+					<div class="options">
+						{% if not item.options.options is empty %}
+							{% for key, value in item.options.options %}
+								<div class="option">
+									<input type="text" name="options[options][keys][]" value="{% if item.options.split|default(0) %}{{ key }}{% endif %}" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key {% if not item.options.split|default(0) %}no-display{% endif %}">
+									<input type="text" name="options[options][values][]" value="{{ value }}" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+								</div>
+							{% endfor %}
+						{%  endif %}
+						<div class="option">
+							<input type="text" name="options[options][keys][]" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key {% if not item.options.split|default(0) %}no-display{% endif %}">
+							<input type="text" name="options[options][values][]" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
+						</div>
+					</div>
+					<hr>
+					<div>
+						<label><input type="checkbox" class="split_options" name="options[split]" {% if item.options.split|default(0) %} checked="checked" {% endif %}> {{ translation.split|default('Split Key/Value') }}</label>
+					</div>
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<th><label for="required">{{ translation.placeholder|default('Placeholder') }}</label></th>
+				<td>
+					<div>
+						<input type="text" name="options[placeholder]">
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<th><label for="required">{{ translation.default|default('Defaul value') }}</label></th>
+				<td>
+					<input type="text" name="options[default]">
+					<p class="description">{{ translation.empty_for_none|default('Empty for no value') }}</p>
+				</td>
+			</tr>
+			
 			<tr>
 				<th></th>
 				<td class="actions">

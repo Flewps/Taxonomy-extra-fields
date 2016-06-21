@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
  * @since 0.0.01
  * @author GuilleGarcia
  */
-class SelectField extends Field{
+class CheckboxField extends Field{
 	
 	protected $type = "select";
 	
@@ -33,6 +33,16 @@ class SelectField extends Field{
 	 * @see TEF_Field::validate()
 	 */
 	function validate($value){
+		
+		return true;
+	}
+	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see \tef\Field\Field::validate_value()
+	 */
+	function validate_value($value){
 		return true;
 	}
 }
