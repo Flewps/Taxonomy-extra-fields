@@ -38,9 +38,9 @@ jQuery( document ).ready(function( $ ) {
 	
 	$('#tef-admin').on('submit', 'form.field-form', tef_save_field);
 	
-	$('#tef-admin').on('click', '.row-actions .edit a', tef_set_row_in_edition);
+	$('#tef-admin').on('click', '.tef_fields_table .row-actions .edit a, .tef_fields_table a.row-title', tef_set_row_in_edition);
 	
-	$('#tef-admin').on('click', '.row-actions .delete a', tef_delete_field);
+	$('#tef-admin').on('click', '.tef_fields_table .row-actions .delete a', tef_delete_field);
 	
 	$('#tef-admin').on('click', 'a.unlock-field', tef_unlock_field);
 	
