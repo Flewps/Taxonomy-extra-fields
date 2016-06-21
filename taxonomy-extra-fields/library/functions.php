@@ -74,3 +74,8 @@ function tef_get_taxonomies(){
 	return $taxonomies;
 	
 }
+
+function tef_load_plugin_textdomain() {
+	load_plugin_textdomain( 'tef', false, TEF_BASENAME."/languages" );
+}
+add_action( 'plugins_loaded', 'tef_load_plugin_textdomain' );

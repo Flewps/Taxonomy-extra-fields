@@ -33,7 +33,9 @@ Thanks to:
 Answer
 
 == Screenshots ==
-1. screenshot description
+1. Taxonomies list
+2. Taxonomy fields
+3. Add/edit field form 
 
 == Changelog ==
 
@@ -42,6 +44,13 @@ Answer
 
 = 0.5.00 = 
 * Create beta version
+
+= 0.6.00 = 
+* Add new Fields types
+* Create credits page
+* First release
+
+
 
 == Coming Soon ==
 * Add new field types: radio, checkbox, geoposition...
