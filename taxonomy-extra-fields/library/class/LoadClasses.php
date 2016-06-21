@@ -32,6 +32,8 @@ class LoadClasses{
 		require_once 'Field/LongTextField.php';
 		require_once 'Field/NumberField.php';
 		require_once 'Field/SelectField.php';
+		require_once 'Field/RadioField.php';
+		require_once 'Field/CheckboxField.php';
 		require_once 'Field/TextField.php';
 		
 	}
