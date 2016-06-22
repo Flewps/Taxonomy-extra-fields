@@ -1,0 +1,17 @@
+<tr class="form-field">  
+	<th scope="row" valign="top">  
+		<label for="term_meta[{{ name }}]">{{ label }}</label>
+	</th>  
+	<td>  
+		<input type="hidden" class="tef-media-value" name="term_meta[{{ name }}]" value="{{ value }}" />
+		<div class="tef-media-container">
+			<div class="tef-media-file thumbnail {% if not value|default(0) %}no-display{% endif %}">
+				<img {% if url|default(0) %} src="{{ url }}"{% endif %} />
+			</div>
+		</div>
+		<button type="button" name="button[{{ name }}]" class="{{ class }} tef-media-button image button primary">{{ button_text|default('Add Image') }}</button>
+		{% if not description is empty %}
+			<p class="description">{{ description }}</p>
+		{% endif %}
+	</td>  
+</tr>

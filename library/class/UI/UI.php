@@ -42,10 +42,16 @@ class UI{
 		$screens = array(
 			'toplevel_page_taxonomy-extra-fields',
 			'admin_page_tef-manage-taxonomy',
-			'taxonomy-extra-fields_page_taxonomy-extra-fields-credits'
+			'taxonomy-extra-fields_page_taxonomy-extra-fields-credits',
+			'edit-category'
 		);
 		
-		if(in_array( get_current_screen()->id, $screens)){	
+		if(in_array( get_current_screen()->id, $screens)){
+			/*
+			 * Load wp.media library
+			 */
+			wp_enqueue_media();
+			
 			/*
 			 * FONT AWESOME 
 			 */
@@ -67,11 +73,12 @@ class UI{
 			/*
 			 * TAXONOMY EXTRA FIELDS
 			 */
-			wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable'), '1.0.0', true );
+			wp_register_script( 'tef_admin_functions', TEF_URL.'/assets/javascript/admin-functions.js', array('jquery','jquery-ui-core','jquery-ui-sortable','media-upload'), '1.0.0', true );
 			wp_enqueue_script( 'tef_admin_functions' );
 		
 			wp_register_style( 'tef_admin_style', TEF_URL.'/assets/css/admin-style.min.css', false, '1.0.0' );
 			wp_enqueue_style( 'tef_admin_style' );
+
 		}
 	}
 	
@@ -287,6 +294,11 @@ class UI{
 					'options' => $field->get_options(),
 				);
 				
+				if('image' == $field->get_type())
+					$data['button_text'] = __('Add Image','tef');
+				else if('file' == $field->get_type())
+					$data['button_text'] = __('Add File','tef');
+				
 				// Render $Field
 				echo get_TEFUI()->render('/fields/add/'.strtolower($field->get_type()), $data);
 			}
@@ -316,6 +328,14 @@ class UI{
 					'description' => $field->get_description(),
 					'options' => $field->get_options(),
 				);
+				
+				if('image' == $field->get_type()){
+					$data['button_text'] = __('Add Image','tef');
+					$data['url'] = wp_get_attachment_url( $data['value'] );
+				}else if('file' == $field->get_type()){
+					$data['button_text'] = __('Add File','tef');
+					$data['url'] = wp_get_attachment_url( $data['value'] );
+				}
 		
 				// Render $Field
 				echo get_TEFUI()->render('/fields/edit/'.strtolower($field->get_type()), $data);

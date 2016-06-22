@@ -48,6 +48,11 @@ function tef_js_translations(){
 					'cancel' => __('Cancel','tef'),
 				),
 				'types' =>  tef_fields_types('names'),
+				'button' => array(
+					'addfile' => __('Add File','tef'),
+					'addimage' => __('Add Image','tef'),
+					'replace'=> __('Replace','tef'),
+				),
 			)
 		));
 	echo "');</script>";
