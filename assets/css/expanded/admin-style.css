@@ -10,6 +10,26 @@ table, tr, td, th, tbody, thead {
   z-index: -1;
 }
 
+.tef-media-container {
+  clear: both;
+  width: 100%;
+  display: block;
+  float: left;
+}
+
+.tef-media-container .tef-media-file {
+  display: inline-block;
+  float: left;
+  margin-bottom: 15px;
+  border: 3px solid #FFF;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tef-media-container .tef-media-file img {
+  max-width: 200px;
+  border: 1px solid #CCC;
+}
+
 .sortable-icon {
   cursor: row-resize;
 }

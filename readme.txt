@@ -45,6 +45,8 @@ Thanks to:
 * Create credits page
 * First release
 
+= 0.6.01 =
+* Add support for file and image fields types
 
 == Future Goals ==
 * Add new field types: geoposition...

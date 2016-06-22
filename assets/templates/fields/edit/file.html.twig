@@ -3,7 +3,13 @@
 		<label for="term_meta[{{ name }}]">{{ label }}</label>
 	</th>  
 	<td>  
-		<input type="file" name="term_meta[{{ name }}]" class="{{ class }}" />
+		<input type="hidden" name="term_meta[{{ name }}]" class="tef-media-value" value="{{ value }}" />
+		<div class="tef-media-container">
+			<div class="tef-media-file thumbnail {% if not value|default(0) %}no-display{% endif %}">
+				<img />
+			</div>
+		</div>
+		<button type="button" name="button[{{ name }}]" class="{{ class }} tef-media-button file button primary">{{ button_text|default('Add File') }}</button>
 		{% if not description is empty %}
 			<p class="description">{{ description }}</p>
 		{% endif %}
