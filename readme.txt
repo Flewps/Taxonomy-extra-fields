@@ -23,30 +23,35 @@ Thanks to:
 == Installation ==
 1. Download clicking directly on the Download button.
 2. Extract the zip content into your wordpress plugins directory: /path/to/your/wordpress/wp-content/plugins/
-3. Go to WP Admin plugins: wp-admin/plugins.php 
+3. Go to WP Admin plugins: wp-admin/plugins.php
 4. Activate the plugin **Taxonomy Extra Fields**
 5. Enjoy it
 
 == Screenshots ==
 1. Taxonomies list
 2. Taxonomy fields
-3. Add/edit field form 
+3. Add/edit field form
 
 == Changelog ==
 
-= 0.0.01 = 
+= 0.0.01 =
 * Begins development
 
-= 0.5.00 = 
+= 0.5.00 =
 * Create beta version
 
-= 0.6.00 = 
+= 0.6.00 =
 * Add new Fields types
 * Create credits page
 * First release
 
 = 0.6.01 =
 * Add support for file and image fields types
+
+= 0.6.02 =
+* Error solved in add actions to taxonomies
+* Updated feautes about Field and Image types (validate, show, save, display...)
+
 
 == Future Goals ==
 * Add new field types: geoposition...
