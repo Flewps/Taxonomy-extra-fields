@@ -3,10 +3,10 @@
 "Taxonomy Extra Fields" is a plugin for create and manage your own custom fields for all public taxonomies of WordPress (natives or created by the owner), directly from admin interface.
 
 Thanks to:
-* Twig http://twig.sensiolabs.org/
-* jQuery (Noty) v2 http://ned.im/noty/
-* Daniel Eden for 'animate.css' https://daneden.github.io/animate.css/
-* Font Awesome http://fontawesome.io/
+* Twig <http://twig.sensiolabs.org/>
+* jQuery (Noty) v2 <http://ned.im/noty/>
+* Daniel Eden for 'animate.css' <https://daneden.github.io/animate.css/>
+* Font Awesome <http://fontawesome.io/>
 
 ## Download
 Download directly from Wordpress Plugin repository here:
@@ -14,7 +14,9 @@ Download directly from Wordpress Plugin repository here:
 
 ## Author
 
-Guilermo Garc�a (@Flewps)
+Guilermo Garcia (@Flewps)
+<http://guillermogarcia.info/>
+<https://twitter.com/FlewPs>
 
 ## License
 Copyright (C) 2016 Guillermo Garcia (@Flewps) <http://guillermogarcia.info>
