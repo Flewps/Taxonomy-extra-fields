@@ -9,19 +9,19 @@ defined( 'ABSPATH' ) or die('Don\'t touch the eggs, please!');
  * @author GuilleGarcia
  */
 abstract class Field{
-	
+
 	protected $ID = NULL;
-	
+
 	protected $position = 1;
-	
+
 	protected $taxonomy = '';
-	
+
 	protected $name = '';
 
 	protected $label = '';
-	
+
 	protected $description = '';
-	
+
 	protected $options = array(
 		'default' => null,
 		'pattern' => null, // Regular expresion to validate
@@ -29,30 +29,28 @@ abstract class Field{
 			'min' => 0, // 0: none
 			'max' => 0, // 0: none
 		),
-		'options' => array(),
-		'split' => false,
 		'placeholder' => "",
 		'multiple' => false, // false: unique value | true: multiple values
 	);
-	
+
 	protected $required = 0;
-	
+
 	protected $type;
-	
+
 	/**
 	 * Constructor
 	 * Create a istance
 	 * @param integer $ID
 	 */
 	function __construct($ID = null){
-		
+
 		if(is_numeric($ID))
-			$this->ID = intval( $ID );	
-		
+			$this->ID = intval( $ID );
+
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	function get_ID(){
 		return intval( $this->ID );
@@ -84,16 +82,16 @@ abstract class Field{
 	 *
 	 */
 	function set_taxonomy($taxonomy){
-		
+
 		$taxonomies = array_merge(array('all'), get_taxonomies());
-		
+
 		if(is_string($taxonomy)){
 			$taxonomy = sanitize_title( $taxonomy );
-			
+
 			if(in_array($taxonomy, $taxonomies))
 				$this->taxonomy = $taxonomy;
 		}
-			
+
 	}
 
 	/**
@@ -148,90 +146,26 @@ abstract class Field{
 		return $this->options;
 	}
 
-	/**
-	 * 
-	 * @param unknown $options
-	 * @param string $split
-	 * @return NULL[]|unknown[]
-	 */
-	function parse_options_list($options,$split=false){
-		
-		$options = (array) $options;
-		$optionList = array();
-		
-		// Array key=>value
-		if($split && isset($options['keys']) && isset($options['values'])){
-				
-			// num of keys must be equals that num of values
-			if(count($options['keys']) == count($options['values'])){
-				for($i=0,$e=0;$i<=count($options['keys']); $i++){
-						
-					if(!empty($options['values'][$i])){
-		
-						if(!empty($options['keys'][$i])){
-							$optionList[ sanitize_title( $options['keys'][$i] ) ] = sanitize_text_field( $options['values'][$i] );
-						}else{
-							$optionList[$e++] = $options['values'][$i];
-						}
-		
-					}
-						
-				}
-			}
-				
-		}
-		// Array numeric (key will be equal that value)
-		else{
-		
-			if(isset($options['values']) && is_array($options['values'])){
-				foreach($options['values'] as $option){
-					if(!empty($option))
-						$optionList[] = sanitize_text_field( $option );
-				}
-			}
-			
-			else if(is_array($options)){
-				foreach($options as $option){
-					if(!empty($option) && !is_array($option))
-						$optionList[] = sanitize_text_field( $option );
-				}
-				
-			}
-				
-		}
-		
-		return $optionList;
-	}
-	
+
+
 	/**
 	 *
 	 */
-	function set_options($options, $parsed=false){
+	function set_options($options){
 
 		$options = (array) $options;
 
-		// Set split option
-		if(isset($options['split'])){
-			if($options['split'])
-				$options['split'] = true;
-			else 
-				$options['split'] = false;
-		}else{
-			$options['split'] = false;
-		}
-		
-		// Set options list
-		if(isset($options['options']))
-			$options['options'] = $this->parse_options_list( $options['options'], $options['split'] );
-		else 
-			$options['options'] = array();
-		
 		// Set default value
 		if(isset($options['default']))
 			$options['default'] = sanitize_text_field( $options['default'] );
-		
-			
+
 		$this->options = wp_parse_args($options, $this->options );
+
+	}
+
+	function set_options_from_db($options){
+
+		$this->options = (array) $options;
 
 	}
 
@@ -246,27 +180,27 @@ abstract class Field{
 	 *
 	 */
 	function is_required(){
-		
+
 		if($this->required)
 			return true;
-		
+
 		return false;
-		
+
 	}
 
 	/**
 	 *
 	 */
 	function set_required($boolean){
-		
+
 		if($boolean)
 			$this->required = 1;
-		
+
 		else
 			$this->required = 0;
-		
+
 	}
-	
+
 	/**
 	 *
 	 */
@@ -281,16 +215,16 @@ abstract class Field{
 		if(is_string($type) && in_array($type, array_keys( tef_fields_types() )))
 			$this->type = $type;
 	}
-	
+
 	function get_default(){
 		if(isset($this->options['default']))
 			return esc_attr( $this->options['default'] );
-		
+
 		return null;
 	}
-	
-	
-		
+
+
+
 	/**
 	 * Save the current field
 	 * If ID is empty create a new field
@@ -320,64 +254,64 @@ abstract class Field{
 			'%d',
 			'%s',
 		);
-		
+
 		// Create new
 		if(is_null($this->ID) || $this->ID == 0){
-			
+
 			if($wpdb->insert(TEF_FIELD_TABLE_NAME,$data,$data_format)){
 				$this->ID = $wpdb->insert_id;
 				return $this->to_JSON();
 			}else
 				return 0;
-			
+
 		// Update existing
 		}else{
-			
+
 			if($wpdb->update(TEF_FIELD_TABLE_NAME, $data,array('ID' => $this->ID,),$data_format,array('%d')))
 				return $this->to_JSON();
 			else
 				return 0;
-			
+
 		}
-			
-		
+
+
 	}
-	
+
 	function validate_value( $value ){
 		return true;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param unknown $term_id
 	 * @param unknown $value
 	 */
 	function save_value($term_id, $value){
-		
+
 		update_term_meta( $term_id, $this->name, sanitize_text_field( $value ) );
-		
+
 	}
-	
+
 	function get_saved_value( $term_id ){
-		
+
 		return esc_attr( get_term_meta($term_id, $this->get_name(), true) );
-		
+
 	}
-	
+
 	/**
 	 * Delete the field from DB
 	 */
 	function delete(){
 		global $wpdb;
-		
+
 		return $wpdb->delete(
 			TEF_FIELD_TABLE_NAME,
 			array('ID' => $this->ID),
 			array('%d')
 		);
-		
+
 	}
-	
+
 	/**
 	 * Encode object to JSON
 	 * @return string
@@ -402,63 +336,63 @@ abstract class Field{
 	 * @return boolean
 	 */
 	function from_JSON($JSON){
-		
+
 		$array = json_decode($JSON);
-		
+
 		if(!$array || !is_array($array))
 			return false;
-		
+
 		if(isset($array['ID']))
 			$this->set_ID( $array[''] );
 
 		if(isset($array['position']))
 			$this->set_position( $array['position'] );
-		
+
 		if(isset($array['taxonomy']))
 			$this->set_( $array['taxonomy'] );
-		
+
 		if(isset($array['name']))
 			$this->set_( $array['name'] );
-		
+
 		if(isset($array['label']))
 			$this->set_label( $array['label'] );
-		
+
 		if(isset($array['description']))
 			$this->set_description( $array['description'] );
-		
+
 		if(isset($array['options']))
 			$this->set_options( $array['options'] );
-			
+
 		if(isset($array['required']))
 			$this->set_required( $array['required'] );
-				
+
 		if(isset($array['type']))
 			$this->set_type( $array['type'] );
-		
+
 	}
-	
+
 	/**
 	 * Validate de data of Field Object for create/update
 	 */
 	abstract function validate($value);
-	
-	
+
+
 	static function save_field($ID,$position,$taxonomy,$name,$label,$description,$options,$required,$type){
-		
+
 		$types = tef_fields_types();
 		$taxonomies = array_merge(array('all'), get_taxonomies());
-		
+
 		if(!in_array($taxonomy, $taxonomies))
 			return 0;
-		
+
 		if(!in_array($type, array_keys($types)))
 			return 0;
-		
+
 		if(!class_exists($types[$type]['object']))
 			return 0;
-		
+
 		$field = new $types[$type]['object']($ID);
-				
+
 		$field->set_position($position);
 		$field->set_taxonomy($taxonomy);
 		$field->set_name($name);
@@ -467,15 +401,15 @@ abstract class Field{
 		$field->set_options($options);
 		$field->set_required($required);
 		$field->set_type($type);
-		
+
 		return $field->save();
 	}
-	
+
 	static function delete_field($ID){
-		
+
 		$field = new NoTypeField( intval( $ID ) );
-		
+
 		return $field->delete();
-		
+
 	}
 }

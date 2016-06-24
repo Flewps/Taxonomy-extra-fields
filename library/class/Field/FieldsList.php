@@ -78,7 +78,7 @@ class FieldList{
 					$field->set_label( $row['label'] );
 					$field->set_required( $row['required'] );
 					$field->set_type( $row['type'] );
-					$field->set_options( json_decode( $row['options'] ) );
+					$field->set_options_from_db( json_decode( $row['options'], true ) );
 					$field->set_description( $row['description'] );
 					$field->set_taxonomy( $row['taxonomy'] );
 					$field->set_position( $row['position'] );

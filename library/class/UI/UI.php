@@ -280,10 +280,17 @@ class UI{
 	}
 
 	function initialize_twig(){
-
-		$this->twig = new \Twig_Environment($this->twig_loader, array(
+		$options = array(
 			//'cache' => TEF_DIR . '/cache',
-		));
+		);
+
+		if(WP_DEBUG)
+			$options['debug'] = true;
+
+		$this->twig = new \Twig_Environment($this->twig_loader, $options );
+
+		if(WP_DEBUG)
+			$this->twig->addExtension(new \Twig_Extension_Debug());
 
 		$this->twig->addFunction( '__', new \Twig_SimpleFunction( '__', function ( $text, $domain = 'default' ) {
 				return __( $text, $domain );
@@ -310,8 +317,6 @@ class UI{
 					'description' => $field->get_description(),
 					'options' => $field->get_options(),
 				);
-
-				print_r( $field->get_options() );
 
 				// Render $Field
 				echo get_TEFUI()->render('/fields/add/'.strtolower($field->get_type()), $data);

@@ -62,8 +62,6 @@ class FileField extends Field{
 		$term_id = intval( $term_id );
 		$attachment_id =  get_term_meta($term_id, $this->get_name(), true);
 
-echo get_post_mime_type( $attachment_id ); 
-
 		if( $url = wp_get_attachment_url( $attachment_id ) )
 			return array(
 				'id' => $attachment_id,
