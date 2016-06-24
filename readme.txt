@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: guillegarcia
 Donate link: http://tef.guillermogarcia.info
-Tags: taxonomy, extra, fields, custom,
+Tags: taxonomy, extra, fields, custom, terms, tags, tag, category, categories
 Requires at least: 4.4.0
 Tested up to: 4.4
 Stable tag: 4.4
@@ -52,9 +52,16 @@ Thanks to:
 * Error solved in add actions to taxonomies
 * Updated feautes about Field and Image types (validate, show, save, display...)
 
+= 0.6.03 =
+* Delete debug output strings
+* Add Twig DEBUG support
+* Add new abstract field-type class: OptionsField
+* Refactorization of Select, Radio and Checkbox fields class
+
 
 == Future Goals ==
 * Add new field types: geoposition...
+* Add Shortcodes and Frontend/Backend outputs
 * Add new fields options: multiple
 * Create/manage/delete new taxonomy
 * Support for non-ajax functions.

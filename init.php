@@ -3,7 +3,7 @@
 Plugin Name: Taxonomy Extra Fields (BETA)
 Plugin URI: http://tef.guillermogarcia.info
 Description: "Taxonomy Extra Fields" is a plugin for create and manage your own custom fields for all public taxonomies  of Wordpress (natives or created by the owner), directly from admin interface.
-Version: 0.6.02
+Version: 0.6.03
 Author: Guillermo Garcia (@Flewps)
 Author URI: http://guillermogarcia.info
 Text Domain: tef

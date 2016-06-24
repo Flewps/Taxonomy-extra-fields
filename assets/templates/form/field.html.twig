@@ -5,11 +5,11 @@
 	<input type="hidden" name="position" value="{{ item.position|default(position) }}" />
 	<input type="hidden" name="taxonomy" value="{{ item.taxonomy|default(taxonomy) }}" />
 	<input type="hidden" name="ID" value="{{ item.ID|default(0) }}" />
-	
+
 	<table class="tef-form" id="form-field">
-	
+
 		<thead>
-		
+
 		</thead>
 		<tbody>
 			<tr>
@@ -42,14 +42,15 @@
 				<th><label for="required">{{ translation.required|default('Required') }}</label></th>
 				<td><input type="checkbox" name="required" {% if item.required|default(0) %} checked="checked" {% endif %}></td>
 			</tr>
-			
-			
+
+
 			<tr class="{% if item.type not in ["select","radio","checkbox"] %}no-display{% endif %}" data-for="select radio checkbox">
 				<th><label for="option[options]">{{ translation.options|default('Options list') }}</label></th>
 				<td class="options_list">
 					<div class="options">
 						{% if not item.options.options is empty %}
 							{% for key, value in item.options.options %}
+
 								<div class="option">
 									<input type="text" name="options[options][keys][]" value="{% if item.options.split|default(0) %}{{ key }}{% endif %}" placeholder="{{  translation.placeholder.key|default('Key') }}" class="key {% if not item.options.split|default(0) %}no-display{% endif %}">
 									<input type="text" name="options[options][values][]" value="{{ value }}" placeholder="{{ translation.placeholder.value|default('Value') }}" class="value">
@@ -67,8 +68,8 @@
 					</div>
 				</td>
 			</tr>
-			
-			
+
+
 			<tr>
 				<th><label for="required">{{ translation.placeholder|default('Placeholder') }}</label></th>
 				<td>
@@ -77,7 +78,7 @@
 					</div>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<th><label for="required">{{ translation.default|default('Defaul value') }}</label></th>
 				<td>
@@ -85,7 +86,7 @@
 					<p class="description">{{ translation.empty_for_none|default('Empty for no value') }}</p>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<th></th>
 				<td class="actions">
@@ -95,7 +96,7 @@
 			</tr>
 		</tbody>
 		<tfoot>
-		
+
 		</tfoot>
 	</table>
 </form>

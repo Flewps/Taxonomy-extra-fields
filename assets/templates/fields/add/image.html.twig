@@ -10,7 +10,7 @@
 			{% endif %}
 		</div>
 	</div>
-	<button type="button" name="button[{{ name }}]" class="{{ class }} tef-media-button image button button-primary" data-type="image" data-supported="{{ options.formats|join(' ') }}">{% if not value|default(0) %}{{ options.button.text|default('Add Image') }} {% else %}{{__('Replace','tef')}} {% endif %}</button>
+	<button type="button" name="button[{{ name }}]" class="{{ class }} tef-media-button image button" data-type="image" data-supported="{{ options.formats|join(' ') }}">{% if not value|default(0) %}{{ options.button.text|default('Add Image') }} {% else %}{{__('Replace','tef')}} {% endif %}</button>
 	{% if not description is empty %}
 		<p class="description">{{ description }}</p>
 	{% endif %}
