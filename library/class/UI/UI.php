@@ -284,12 +284,12 @@ class UI{
 			//'cache' => TEF_DIR . '/cache',
 		);
 
-		if(defined(WP_DEBUG) && WP_DEBUG)
+		if(defined('WP_DEBUG') && WP_DEBUG)
 			$options['debug'] = true;
 
 		$this->twig = new \Twig_Environment($this->twig_loader, $options );
 
-		if(defined(WP_DEBUG) && WP_DEBUG)
+		if(defined('WP_DEBUG') && WP_DEBUG)
 			$this->twig->addExtension(new \Twig_Extension_Debug());
 
 		$this->twig->addFunction( '__', new \Twig_SimpleFunction( '__', function ( $text, $domain = 'default' ) {
