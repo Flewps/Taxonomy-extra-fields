@@ -311,10 +311,7 @@ class UI{
 					'options' => $field->get_options(),
 				);
 
-				if('image' == $field->get_type())
-					$data['button_text'] = __('Add Image','tef');
-				else if('file' == $field->get_type())
-					$data['button_text'] = __('Add File','tef');
+				print_r( $field->get_options() );
 
 				// Render $Field
 				echo get_TEFUI()->render('/fields/add/'.strtolower($field->get_type()), $data);
