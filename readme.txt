@@ -58,6 +58,8 @@ Thanks to:
 * Add new abstract field-type class: OptionsField
 * Refactorization of Select, Radio and Checkbox fields class
 
+= 0.6.04 =
+* Add radio and checkbox templates (previously forgotten)
 
 == Future Goals ==
 * Add new field types: geoposition...
@@ -65,3 +67,4 @@ Thanks to:
 * Add new fields options: multiple
 * Create/manage/delete new taxonomy
 * Support for non-ajax functions.
+* Add javascript validation to add/edit term form
