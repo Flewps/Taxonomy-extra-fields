@@ -70,7 +70,7 @@
 			</tr>
 
 
-			<tr>
+			<tr class="{% if item.type in ["radio","checkbox"] %}no-display{% endif %}" data-not-for="radio checkbox">
 				<th><label for="required">{{ translation.placeholder|default('Placeholder') }}</label></th>
 				<td>
 					<div>
