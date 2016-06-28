@@ -55,12 +55,31 @@ jQuery( document ).ready(function( $ ) {
 			if( typeof $(this).data('for') != "undefined" ){
 				var types = $(this).data('for').split(" ");
 
-				if(jQuery.inArray( type, types ) != -1)
+				if(jQuery.inArray( type, types ) != -1){
 					$(this).removeClass('no-display');
-				else
+					$('input, textarea, select', this).removeAttr('disabled');
+				}else{
 					$(this).addClass('no-display');
+					$('input, textarea, select', this).attr('disabled','disabled');
+				}
+
 
 			}
+
+			else if( typeof $(this).data('not-for') != "undefined" ){
+				var types = $(this).data('not-for').split(" ");
+
+				if(jQuery.inArray( type, types ) != -1){
+					$(this).addClass('no-display');
+					$('input, textarea, select', this).attr('disabled','disabled');
+				}else{
+					$(this).removeClass('no-display');
+					$('input, textarea, select', this).removeAttr('disabled');
+				}
+
+
+			}
+
 
 		});
 
